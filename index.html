@@ -1,0 +1,1312 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Головна гра: психологічні тести без діагнозів</title>
+<meta name="description" content="Короткі психологічні тести без діагнозів і душності. Дізнайся, що відбувається в голові, і як із цим жити.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F2F4F1">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Головна гра: з тобою все гаразд, це просто мозок грає в гру">
+<meta property="og:description" content="Короткі тести без діагнозів і душності. Результат прийде на email.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;700&display=swap">
+<style>
+/* Layout: one narrow column (max 1080px), playful wide-display headlines, pastel test cards on a cool paper ground; one big blue accent for actions. */
+:root{
+  --bg:#F2F4F1; --surface:#FFFFFF; --ink:#16191F; --muted:#5D6572; --line:#DDE1DB;
+  --cc:#7A93FF; --accent:#2F4BFF; --on-accent:#FFFFFF; --sun:#FFD84D; --on-sun:#16191F;
+  --h-blue:#7A93FF; --h-yellow:#FFD84D; --h-pink:#FF8FB1; --h-mint:#5FD3A8;
+  --ok:#17795A; --warn:#B4571B;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media not all{:root:not([data-theme="light"]){
+  --bg:#13161B; --surface:#1D2128; --ink:#F0F2F6; --muted:#A1A8B5; --line:#2B313B;
+  --accent:#8EA2FF; --on-accent:#10131C; --sun:#FFD84D; --on-sun:#16191F;
+  --h-blue:#6D86F5; --h-yellow:#E6C23F; --h-pink:#E0709A; --h-mint:#45BE93;
+  --ok:#5FD3A8; --warn:#F0A468; color-scheme:dark}}
+:root[data-theme="x-off"]{
+  --bg:#13161B; --surface:#1D2128; --ink:#F0F2F6; --muted:#A1A8B5; --line:#2B313B;
+  --accent:#8EA2FF; --on-accent:#10131C; --sun:#FFD84D; --on-sun:#16191F;
+  --h-blue:#6D86F5; --h-yellow:#E6C23F; --h-pink:#E0709A; --h-mint:#45BE93;
+  --ok:#5FD3A8; --warn:#F0A468; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1080px;margin-inline:auto;padding-block:16px 56px}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* header */
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px;margin-bottom:18px;margin-inline:-16px;padding-inline:16px;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:transparent;transition:translate .4s cubic-bezier(.2,.9,.2,1),background .3s,box-shadow .3s}
+header.scrolled{background:color-mix(in srgb,var(--bg) 84%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line)}
+header.hide{translate:0 -130%}
+.logo{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;font-family:var(--display);font-weight:700;font-size:1.05rem}
+.logo i{width:30px;height:30px;display:inline-block;flex:none;background:radial-gradient(circle at 33% 38%,var(--h-pink) 0 30%,transparent 31%),radial-gradient(circle at 67% 38%,var(--h-yellow) 0 30%,transparent 31%),radial-gradient(circle at 50% 70%,var(--h-blue) 0 30%,transparent 31%);animation:bob 3.2s ease-in-out infinite}
+
+.lang{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
+.lang button{border:0;background:none;padding:6px 14px;border-radius:999px;font-weight:600;font-size:.85rem;color:var(--muted)}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:48px;align-items:center;padding-block:28px 40px}
+.hero h1{font-size:clamp(1.6rem,3.7vw,2.6rem);font-weight:500;line-height:1.18}
+.hero h1 mark{background:none;color:var(--accent);padding:0;display:inline}
+.hero p.lead{font-size:1.1rem;color:var(--muted);margin-top:22px;max-width:44ch}
+.hero .cta{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{background:var(--accent);color:var(--on-accent);border:0;border-radius:14px;padding:14px 22px;font-weight:600;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:scale(.97)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--line)}
+.note{font-size:.85rem;color:var(--muted)}
+.brain{justify-self:center;width:min(100%,220px);aspect-ratio:1}
+.brain svg{width:100%;height:100%;overflow:visible}
+
+/* test grid */
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.sec-h h2{font-size:1.4rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{--tint:var(--h-blue);text-align:left;border:1px solid var(--line);background:color-mix(in srgb,var(--tint) 24%,var(--surface));border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0;transition:transform .25s ease-out,box-shadow .2s,translate .9s cubic-bezier(.2,.9,.2,1),rotate .9s cubic-bezier(.2,.9,.2,1);transition-delay:0s,0s,calc(var(--i,0)*70ms),calc(var(--i,0)*70ms);transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0px));position:relative;overflow:hidden}
+.card:hover{--ty:-6px;box-shadow:0 22px 40px -24px rgba(10,12,20,.5)}
+.card::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.2),transparent 60%);opacity:0;transition:opacity .25s;pointer-events:none}
+.card:hover::after{opacity:1}
+.card .blob{width:44px;height:44px;border-radius:14px;background:var(--tint);display:grid;place-items:center;font-family:var(--display);font-weight:700;color:#16191F;transition:transform .3s}
+.card:hover .blob{transform:rotate(12deg) scale(1.08)}
+.card h3{font-size:1.02rem;line-height:1.25}
+.card p{font-size:.92rem;color:var(--muted)}
+.card .meta{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-size:.82rem;font-weight:600}
+.pill{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:.78rem;font-weight:600}
+.pill.live{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.t-yellow{--tint:var(--h-yellow)} .t-pink{--tint:var(--h-pink)} .t-mint{--tint:var(--h-mint)}
+
+.promise{margin-top:72px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.promise div{border-top:2px solid var(--ink);padding-top:12px}
+.promise b{font-family:var(--display);font-size:.95rem;display:block;margin-bottom:6px}
+.promise span{color:var(--muted);font-size:.93rem}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted)}
+
+/* quiz */
+.stage{max-width:640px;margin-inline:auto}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:.9rem;color:var(--muted);font-weight:500}
+.link{background:none;border:0;padding:4px 0;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .45s cubic-bezier(.3,1.3,.5,1)}
+.qbox{min-height:430px;padding-top:34px;position:relative}
+.q{position:relative;z-index:1}
+.qnum{position:absolute;right:-4px;top:-6px;font-family:var(--display);font-weight:700;font-size:clamp(5rem,16vw,9rem);line-height:1;color:color-mix(in srgb,var(--ink) 7%,transparent);pointer-events:none;animation:ghost .5s ease-out}
+.hint{display:none;margin-top:16px;font-size:.85rem;color:var(--muted)}
+@media (hover:hover) and (pointer:fine){.hint{display:block}}
+.opt.kp{animation:kp .22s ease-out}
+.q{animation:inR .28s ease-out both}
+.q.back{animation-name:inL}
+.q h2{font-size:clamp(1.25rem,3.6vw,1.7rem);margin-bottom:26px;line-height:1.25}
+.likert{display:grid;gap:10px}
+.opt{animation:optIn .4s backwards;animation-delay:calc(var(--i,0)*50ms + 120ms);background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:14px 18px;text-align:left;display:flex;gap:14px;align-items:center;transition:transform .12s,border-color .12s,background .12s}
+.opt:hover{border-color:var(--accent);transform:translateX(4px)}
+.opt:active{transform:scale(.98)}
+.opt .n{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--line);border-bottom-width:3px;display:grid;place-items:center;font-size:.8rem;font-weight:600;flex:none;color:var(--muted)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--surface))}
+.opt[aria-pressed="true"] .n{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+
+/* gate + result */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:clamp(20px,4vw,34px);animation:rise .4s ease-out both}
+.panel h2{font-size:1.5rem;margin-bottom:10px}
+.field{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;margin:16px 0 12px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.9rem;color:var(--muted);margin-bottom:16px}
+.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent);flex:none}
+.err{color:var(--warn);font-size:.9rem;margin-bottom:10px}
+.stack{display:grid;gap:22px}
+.score{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.score .big{font-family:var(--display);font-weight:700;font-size:clamp(3.4rem,13vw,5.5rem);line-height:.95;color:var(--accent);font-variant-numeric:tabular-nums}
+.score small{font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-bottom:10px}
+.meter{position:relative;height:14px;border-radius:99px;background:linear-gradient(90deg,var(--h-mint),var(--h-yellow),var(--h-pink));margin-top:14px}
+.meter i{position:absolute;top:-6px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:var(--surface);border:4px solid var(--ink);left:0;transition:left 1.1s cubic-bezier(.2,1.2,.4,1)}
+.scale{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-top:8px}
+.prose p+p{margin-top:12px}
+.prose ul,.prose ol{padding-left:20px;margin:12px 0 0;display:grid;gap:8px}
+.prose h3{font-size:1rem;margin:18px 0 6px}
+.dims{display:grid;gap:14px;margin-top:18px}
+.dim{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 12px;font-size:.92rem}
+.dim .v{font-weight:600;font-variant-numeric:tabular-nums;color:var(--muted)}
+.dim.top .v{color:var(--ink)}
+.dim .track{grid-column:1/-1;height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.dim .track i{display:block;height:100%;width:0;border-radius:99px;background:var(--accent);transition:width .9s cubic-bezier(.2,1,.4,1)}
+.dim.top .track i{background:var(--h-pink)}
+.driver{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.driver h3{font-size:1rem;margin-bottom:6px}
+.driver .act{margin-top:8px;font-weight:500}
+.box{border:1.5px dashed var(--line);border-radius:18px;padding:18px}
+.box h3{font-size:1rem;margin-bottom:8px}
+.offer{background:color-mix(in srgb,var(--h-yellow) 30%,var(--surface));border:1px solid var(--line);border-radius:26px;padding:clamp(20px,4vw,32px);display:grid;gap:16px}
+.offer h3{font-size:1.25rem}
+.offer .days{display:grid;gap:6px;font-size:.93rem;padding:0;margin:0;list-style:none}
+.offer .days li{display:flex;gap:10px}
+.offer .days b{flex:none;width:52px;color:var(--muted);font-weight:600}
+.timer{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);border-radius:999px;padding:6px 14px;font-weight:600;font-size:.88rem;font-variant-numeric:tabular-nums;justify-self:start}
+.timer::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--h-pink);animation:pulse 1.2s infinite}
+.price{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.price b{font-family:var(--display);font-size:1.8rem}
+.price s{color:var(--muted)}
+.demo{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:.9rem}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font-size:.92rem;z-index:9;max-width:calc(100% - 32px);animation:rise .25s ease-out both}
+
+
+/* ---- awwwards layer ---- */
+#prog{position:fixed;left:0;top:0;height:4px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:0 50%;z-index:50}
+#cur{position:fixed;left:0;top:0;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:#fff;mix-blend-mode:difference;pointer-events:none;z-index:9999;opacity:0;scale:1;transition:scale .4s cubic-bezier(.2,.9,.2,1),opacity .2s;will-change:translate,scale}
+#cur.on{opacity:1}
+#cur.hot{scale:2.8}
+#cur.down{scale:.7}
+#cur.hot.down{scale:2.2}
+#cur.txt{opacity:0}
+html.has-cur,html.has-cur *{cursor:none!important}
+html.has-cur input[type=email],html.has-cur input[type=text],html.has-cur textarea{cursor:text!important}
+.anim-ready [data-rv]:not(.in){translate:0 52px;rotate:var(--rr,0deg)}
+[data-rv]{transition:translate .9s cubic-bezier(.2,.9,.2,1),rotate .9s cubic-bezier(.2,.9,.2,1);transition-delay:calc(var(--i,0)*70ms)}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-block:.14em;margin-block:-.14em}
+.w>span{display:inline-block;animation:wordUp .95s cubic-bezier(.2,.9,.2,1) backwards;animation-delay:calc(var(--i,0)*80ms + 120ms)}
+.hero-copy{will-change:translate}
+.brain{will-change:translate,rotate}
+.cue{margin-top:34px;display:inline-flex;align-items:center;gap:10px;font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cue i{width:1px;height:34px;background:var(--muted);transform-origin:50% 0;animation:cue 1.8s ease-in-out infinite}
+.mq{overflow:hidden;border-block:1px solid var(--line);margin-block:36px 0;display:block}
+.mq-row{display:block;overflow:hidden;padding-block:15px}
+.mq-row.a{background:none;color:var(--muted);transform:none}
+.mq-t{display:flex;align-items:center;width:max-content;white-space:nowrap;font-family:var(--body);font-weight:500;font-size:.8rem;text-transform:uppercase;letter-spacing:.16em;will-change:transform}
+.mq-t span{display:block}
+.dot{display:block;width:5px;height:5px;border-radius:50%;background:var(--accent);margin:0 1.8rem;flex:none}
+.mani{height:300vh;margin-block:40px 0;position:relative}
+.mani-in{position:sticky;top:0;height:100vh;height:100svh;display:grid;align-content:center;gap:28px}
+.mani-in::before{content:attr(data-k);font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.mbar{width:min(220px,40vw);height:3px;border-radius:3px;background:var(--line);overflow:hidden}
+.mbar i{display:block;height:100%;background:var(--accent);transform-origin:0 50%;transform:scaleX(var(--mp,0))}
+.mani-p{font-family:var(--display);font-weight:600;font-size:clamp(1.9rem,5.4vw,4.7rem);line-height:1.1;letter-spacing:-.02em;max-width:21ch;text-wrap:balance;scale:var(--ms,1);transform-origin:0 50%}
+.mw{display:inline-block;color:color-mix(in srgb,var(--ink) calc(var(--t,0)*100%),var(--line));opacity:calc(.35 + var(--t,0)*.65);filter:blur(calc((1 - var(--t,0))*5px));translate:0 calc((1 - var(--t,0))*.28em);will-change:filter,translate}
+@media (prefers-reduced-motion:reduce){.mw{--t:1;filter:none}}
+html:not(.anim-ready) .mani{height:auto}html:not(.anim-ready) .mani-in{position:static;height:auto;padding-block:72px}html:not(.anim-ready) .mw{--t:1;filter:none}
+.scene{height:300vh;margin-top:72px}
+.scene-in{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;height:100svh;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+.scene h2{font-size:clamp(1.5rem,3.4vw,2.2rem);margin-bottom:26px}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:20px}
+.steps li{display:flex;gap:16px;color:var(--muted);transition:color .3s,translate .4s}
+.steps .sn{flex:none;width:40px;height:40px;border-radius:12px;border:1.5px solid var(--line);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:.85rem;transition:background .3s,color .3s,border-color .3s}
+.steps h3{font-size:1.05rem;margin-bottom:4px;color:inherit}
+.steps p{font-size:.93rem}
+.scene[data-step="0"] .steps li:nth-child(1),.scene[data-step="1"] .steps li:nth-child(2),.scene[data-step="2"] .steps li:nth-child(3){color:var(--ink);translate:8px 0}
+.scene[data-step="0"] .steps li:nth-child(1) .sn,.scene[data-step="1"] .steps li:nth-child(2) .sn,.scene[data-step="2"] .steps li:nth-child(3) .sn{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.rail{height:4px;background:var(--line);border-radius:9px;margin-top:28px;overflow:hidden}
+.rail i{display:block;height:100%;background:var(--accent);transform-origin:0 50%;transform:scaleX(var(--p,0))}
+.vis{position:relative;aspect-ratio:1/1;max-height:min(80vh,460px);width:100%;justify-self:center;background:var(--surface);border:1px solid var(--line);border-radius:28px;overflow:hidden}
+.v{position:absolute;inset:0;padding:clamp(16px,3vw,28px);display:grid;align-content:center;gap:12px;opacity:0;transform:scale(.94) translateY(20px);transition:opacity .45s,transform .6s cubic-bezier(.2,.9,.2,1)}
+.scene[data-step="0"] .v1,.scene[data-step="1"] .v2,.scene[data-step="2"] .v3{opacity:1;transform:none}
+.vq p{font-family:var(--display);font-weight:500;font-size:clamp(.95rem,2vw,1.15rem);line-height:1.3}
+.vc{display:flex;gap:8px;margin-top:18px}
+.vc b{flex:1;height:50px;border-radius:12px;border:1.5px solid var(--line);border-bottom-width:4px;display:grid;place-items:center;font-family:var(--display);transition:background .2s,transform .2s,border-color .2s}
+.vc b.on{background:var(--accent);color:var(--on-accent);border-color:var(--accent);transform:translateY(3px);border-bottom-width:1.5px}
+.vk{font-size:.8rem;color:var(--muted)}
+.vcap{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.vr{display:grid;gap:4px;font-size:.78rem;min-width:0}
+.vt{height:8px;background:var(--line);border-radius:9px;overflow:hidden}
+.vt i{display:block;height:100%;border-radius:9px;background:var(--accent);width:calc(var(--t)*1% * var(--k,0))}
+.vr.hi .vt i{background:var(--h-pink)}
+.vt3{display:flex;gap:12px;align-items:center;padding:14px;border:1.5px solid var(--line);border-radius:16px;transition:background .3s,border-color .3s;font-weight:500}
+.tick{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);flex:none;position:relative;transition:background .3s,border-color .3s}
+.vt3.done{background:color-mix(in srgb,var(--h-mint) 22%,var(--surface));border-color:var(--h-mint)}
+.vt3.done .tick{background:var(--h-mint);border-color:var(--h-mint)}
+.vt3.done .tick::after{content:"";position:absolute;left:7px;top:3px;width:6px;height:11px;border:solid #16191F;border-width:0 2.5px 2.5px 0;rotate:45deg}
+.final{margin-top:72px;background:var(--ink);color:var(--bg);border-radius:28px;overflow:hidden;padding:clamp(32px,7vw,64px) clamp(22px,5vw,56px);display:grid;gap:24px;justify-items:start}
+.giant{font-size:clamp(1.8rem,5.6vw,3.6rem);line-height:1.08}
+.final .btn{background:var(--sun);color:var(--on-sun)}
+html:not(.anim-ready) .scene{height:auto}
+html:not(.anim-ready) .scene-in{position:static;height:auto}
+html:not(.anim-ready) .vis{display:none}
+@media (max-width:760px){
+  .scene-in{grid-template-columns:1fr;gap:16px;align-content:center}
+  .scene h2{margin-bottom:16px}
+  .steps{gap:12px}.steps p{font-size:.85rem}
+  .vis{aspect-ratio:auto;height:clamp(230px,40vh,360px);height:clamp(230px,40svh,360px);max-height:none;order:-1}
+  .v{gap:6px}.vr{font-size:.68rem;gap:2px}.vt{height:6px}
+  .vt3{padding:8px 12px}.vc b{height:40px}
+  .mani{margin-block:20px 0}
+}
+@keyframes wordUp{0%{transform:translateY(140%) rotate(6deg);opacity:0}30%{opacity:1}100%{transform:none;opacity:1}}
+@keyframes optIn{from{transform:translateX(26px)}}
+@keyframes kp{40%{transform:scale(.96)}}
+@keyframes ghost{from{transform:translateY(24px) scale(.9)}}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);transform-origin:50% 100%}}
+@keyframes inR{from{opacity:0;transform:translateX(48px)}to{opacity:1;transform:none}}
+@keyframes inL{from{opacity:0;transform:translateX(-48px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes bob{50%{transform:translateY(-4px) rotate(6deg)}}
+@keyframes pulse{50%{opacity:.3}}
+@keyframes float{50%{transform:translateY(-10px)}}
+.f1{animation:float 4s ease-in-out infinite}.f2{animation:float 5s ease-in-out -1.5s infinite}.f3{animation:float 3.6s ease-in-out -2.4s infinite}
+@media (max-width:760px){.hero{grid-template-columns:1fr}.brain{width:180px;order:-1;justify-self:start}.promise{grid-template-columns:1fr}.qbox{min-height:480px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ---- mobile polish ---- */
+.row-btns{display:flex;gap:10px;flex-wrap:wrap}
+#prog{top:env(safe-area-inset-top,0px)}
+.offer .days b{width:auto;min-width:60px;white-space:nowrap}
+@media (hover:none){
+  .opt:hover{border-color:var(--line);transform:none}
+  .opt[aria-pressed="true"]:hover{border-color:var(--accent)}
+  .btn:hover{transform:none}
+  .vk{display:none}
+}
+@media (max-width:760px){
+  .hero{gap:18px;padding-block:6px 4px}
+  .brain{width:120px;margin-bottom:-6px}
+  .hero .cta{flex-direction:column;align-items:stretch;gap:12px}
+  .hero .cta .btn{width:100%;padding-block:16px}
+  .hero .cta .note{text-align:center}
+  .lang button{padding:8px 16px}
+  .top .link{padding:10px 0}
+  .q h2{font-size:1.1rem;margin-bottom:20px;padding-right:0}
+  .qnum{font-size:3.4rem;top:6px;right:0}
+  .qbox{padding-top:30px}
+  .panel{border-radius:22px}
+  .card{padding:18px;gap:10px}
+  .final .btn{width:100%}
+  .offer{border-radius:22px}
+  .row-btns{flex-direction:column}
+}
+
+/* ---- hero shapes ---- */
+.brain .sh{mix-blend-mode:multiply}
+@media not all{:root:not([data-theme="light"]) .brain .sh{mix-blend-mode:normal;opacity:.82}}
+:root[data-theme="x-off"] .brain .sh{mix-blend-mode:normal;opacity:.82}
+@media (max-width:760px){.brain{width:150px;margin-bottom:-4px}}
+
+/* ---- hover fx ---- */
+@keyframes logoSpin{0%{transform:rotate(0) scale(1)}55%{transform:rotate(200deg) scale(1.28)}100%{transform:rotate(360deg) scale(1)}}
+.link{transition:color .2s,text-underline-offset .25s}
+.pill{transition:background .25s,color .25s,border-color .25s}
+@media (hover:hover) and (pointer:fine){
+  .logo:hover i{animation:logoSpin .8s cubic-bezier(.3,1.3,.4,1)}
+  .lang button{transition:background .25s,color .25s,transform .2s}
+  .lang button:not([aria-pressed="true"]):hover{background:color-mix(in srgb,var(--ink) 9%,transparent);color:var(--ink)}
+  .lang button:active{transform:scale(.93)}
+  .link:hover{color:var(--ink);text-underline-offset:6px}
+
+  /* buttons: ink floods in from the point where the pointer enters, text inverts */
+  .btn{position:relative;overflow:hidden;isolation:isolate;--fill:var(--ink);--fill-text:var(--bg);transition:transform .3s cubic-bezier(.2,.9,.2,1),color .35s,box-shadow .3s,border-color .3s}
+  .btn::before{content:"";position:absolute;left:var(--bx,50%);top:var(--by,50%);width:260%;aspect-ratio:1;border-radius:50%;background:var(--fill);translate:-50% -50%;scale:0;z-index:-1;transition:scale .55s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+  .btn:hover::before{scale:1}
+  .btn:hover{color:var(--fill-text);transform:translateY(-2px);box-shadow:0 14px 26px -14px color-mix(in srgb,var(--ink) 55%,transparent)}
+  .btn:hover:active{transform:scale(.97)}
+  .btn.ghost:hover{border-color:var(--ink)}
+  .final .btn{--fill:var(--bg);--fill-text:var(--ink)}
+  .btn[disabled]::before{display:none}
+  .btn[disabled]:hover{color:var(--on-accent);transform:none;box-shadow:none}
+
+  /* answer rows: accent bar, key tile tilts, arrow slides in */
+  .opt{position:relative;overflow:hidden}
+  .opt::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent);transform:scaleY(0);transform-origin:50% 100%;transition:transform .3s cubic-bezier(.2,.9,.2,1)}
+  .opt::after{content:"→";position:absolute;right:18px;top:50%;translate:-12px -50%;opacity:0;color:var(--accent);font-weight:600;transition:translate .3s cubic-bezier(.2,.9,.2,1),opacity .25s}
+  .opt:hover::before,.opt[aria-pressed="true"]::before{transform:scaleY(1)}
+  .opt:hover::after{translate:0 -50%;opacity:1}
+  .opt .n{transition:transform .3s cubic-bezier(.3,1.6,.5,1),background .2s,color .2s,border-color .2s}
+  .opt:hover .n{transform:rotate(-9deg) scale(1.14);border-color:var(--accent);color:var(--accent)}
+  .opt[aria-pressed="true"]:hover .n{color:var(--on-accent)}
+
+  /* cards */
+  .card:hover .pill.live{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+}
+/* ---- full-screen hero ---- */
+.hero{min-height:calc(100svh - 84px);padding-block:0 150px;gap:56px;position:relative}
+.hero h1{font-size:clamp(2.5rem,6vw,5rem);line-height:1.04;font-weight:600;letter-spacing:-.02em}
+.hero p.lead{font-size:clamp(1.05rem,1.6vw,1.3rem);max-width:46ch;margin-top:28px}
+.hero .cta{margin-top:34px;gap:14px}
+.hero .cta .btn{padding:18px 30px;font-size:1.05rem;border-radius:16px}
+.hero .brain{width:min(100%,460px);--sp:0}
+.hero-copy{transform-origin:0 50%}
+.brain .f1{translate:calc(var(--sp)*-70px + var(--mx,0)*-22px + var(--hv,0)*-36px) calc(var(--sp)*-50px + var(--my,0)*-22px + var(--hv,0)*-26px)}
+.brain .f2{translate:calc(var(--sp)*70px + var(--mx,0)*14px + var(--hv,0)*38px) calc(var(--sp)*-30px + var(--my,0)*14px + var(--hv,0)*-18px)}
+.brain .f3{translate:calc(var(--mx,0)*30px) calc(var(--sp)*70px + var(--my,0)*30px + var(--hv,0)*44px)}
+.brain .eye{translate:calc(var(--mx,0)*26px) calc(var(--my,0)*26px)}
+.cue{position:absolute;left:0;bottom:28px;display:flex;align-items:center;gap:12px;background:none;border:0;padding:8px 0;color:var(--muted);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.cue i{display:block;width:1.5px;height:44px;background:var(--line);position:relative;overflow:hidden;border-radius:2px}
+.cue i::after{content:"";position:absolute;left:0;top:-50%;width:100%;height:50%;background:var(--accent);animation:cueDrop 1.7s cubic-bezier(.6,0,.4,1) infinite}
+@keyframes cueDrop{0%{top:-50%}100%{top:110%}}
+@media (hover:hover) and (pointer:fine){.cue:hover{color:var(--ink)}}
+@media (prefers-reduced-motion:no-preference){
+  .hero .lead,.hero .cta,.hero .cue{opacity:0;animation:heroIn .9s cubic-bezier(.2,.9,.2,1) forwards}
+  .hero .lead{animation-delay:.55s}.hero .cta{animation-delay:.72s}.hero .cue{animation-delay:1.1s}
+  .hero .brain{animation:brainIn 1.3s cubic-bezier(.2,1,.3,1) .2s backwards}
+}
+@keyframes heroIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes brainIn{from{opacity:0;scale:.3;rotate:-40deg}to{opacity:1;scale:1;rotate:0deg}}
+@media (max-width:760px){
+  .hero{min-height:calc(100svh - 70px);gap:10px;padding-block:6px 84px;align-content:center}
+  .hero .brain{width:clamp(150px,42vw,220px);margin-bottom:6px}
+  .hero h1{font-size:clamp(2.2rem,10.5vw,3.4rem)}
+  .hero p.lead{margin-top:18px}
+  .hero .cta{flex-direction:column;align-items:stretch;gap:12px;margin-top:24px}
+  .hero .cta .btn{width:100%}
+  .cue{left:50%;translate:-50% 0}
+  .cue span{display:none}
+}
+
+/* ---- hero aurora ---- */
+.hero{isolation:isolate}
+.aurora{position:absolute;z-index:-1;left:50%;width:100vw;translate:-50% 0;top:-110px;height:calc(100% + 150px);overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(transparent,#000 50px,#000 calc(100% - 150px),transparent);mask-image:linear-gradient(transparent,#000 50px,#000 calc(100% - 150px),transparent)}
+.aurora b{position:absolute;display:block;border-radius:50%;filter:blur(72px);opacity:.42;will-change:translate}
+.aurora .a1{width:46vmin;height:46vmin;left:8%;top:18%;background:var(--h-pink);translate:calc(var(--ax,0)*-50px) calc(var(--ay,0)*-40px);animation:drift1 14s ease-in-out infinite alternate}
+.aurora .a2{width:52vmin;height:52vmin;right:6%;top:6%;background:var(--h-yellow);translate:calc(var(--ax,0)*40px) calc(var(--ay,0)*-30px);animation:drift2 17s ease-in-out infinite alternate}
+.aurora .a3{width:50vmin;height:50vmin;left:38%;bottom:-6%;background:var(--h-blue);translate:calc(var(--ax,0)*-30px) calc(var(--ay,0)*50px);animation:drift3 19s ease-in-out infinite alternate}
+.aurora .sp{width:36vmin;height:36vmin;left:0;top:0;margin:-18vmin 0 0 -18vmin;background:var(--accent);opacity:calc(var(--so,0)*.34);transition:none}
+@keyframes drift1{to{transform:translate(9vmin,6vmin) scale(1.15)}}
+@keyframes drift2{to{transform:translate(-8vmin,9vmin) scale(.9)}}
+@keyframes drift3{to{transform:translate(-10vmin,-6vmin) scale(1.2)}}
+@media not all{:root:not([data-theme="light"]) .aurora b{opacity:.26}}
+:root[data-theme="x-off"] .aurora b{opacity:.26}
+@media (prefers-reduced-motion:reduce){.aurora b{animation:none}}
+@media (prefers-reduced-motion:no-preference){.aurora{animation:heroIn 1.6s ease .1s backwards}}
+.hero h1 .w>span{will-change:translate}
+
+/* ---- hero chips + stats ---- */
+.chips{position:absolute;inset:0;pointer-events:none;z-index:1}
+.chip{position:absolute;display:flex;align-items:center;gap:10px;padding:10px 14px 10px 10px;border-radius:16px;background:color-mix(in srgb,var(--surface) 78%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);box-shadow:0 10px 30px -14px rgba(20,24,40,.35);font-size:.82rem;line-height:1.25;white-space:nowrap;translate:calc(var(--ax,0)*var(--d)*-1px) calc(var(--ay,0)*var(--d)*-1px)}
+.chip i{width:30px;height:30px;border-radius:10px;flex:none;display:grid;place-items:center;font-style:normal;font-weight:700;font-size:.8rem;color:var(--on-sun);background:var(--c)}
+.chip b{display:block;font-weight:600}.chip span{color:var(--muted);font-size:.74rem}
+.chip .mini{display:block;width:84px;height:5px;border-radius:9px;background:var(--line);margin-top:5px;overflow:hidden}
+.chip .mini u{display:block;height:100%;width:var(--w);background:var(--c);border-radius:9px;text-decoration:none}
+.chip.c1{--c:var(--h-pink);--d:26;left:56%;top:12%;animation:chipF 6s ease-in-out infinite}
+.chip.c2{--c:var(--h-yellow);--d:38;right:0;top:56%;animation:chipF 7s ease-in-out -2s infinite}
+.chip.c3{--c:var(--h-mint);--d:18;left:50%;top:76%;animation:chipF 5.5s ease-in-out -3.5s infinite}
+@keyframes chipF{50%{transform:translateY(-10px)}}
+.stats{position:absolute;right:0;bottom:36px;display:flex;gap:34px;z-index:1}
+.stats div{text-align:left}.stats b{display:block;font-family:var(--display);font-weight:700;font-size:1.7rem;line-height:1}
+.stats span{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+@media (prefers-reduced-motion:no-preference){.chip.c1,.chip.c2,.chip.c3{opacity:0;animation:chipIn .8s cubic-bezier(.2,.9,.2,1) forwards,chipF 6s ease-in-out infinite}.chip.c1{animation-delay:1s,1.8s}.chip.c2{animation-delay:1.2s,2s}.chip.c3{animation-delay:1.4s,2.2s}.stats{animation:heroIn .9s ease 1.3s backwards}}
+@keyframes chipIn{from{opacity:0;transform:translateY(20px) scale(.9)}to{opacity:1;transform:none}}
+@media (max-width:1000px){.chip.c3{display:none}.chip.c1{left:48%}}
+@media (max-width:760px){.chips,.stats{display:none}}
+.card .blob svg{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.card .blob svg .d{fill:currentColor;stroke-width:2.4}
+@media (hover:hover) and (pointer:fine){.card:hover .blob svg{animation:icoWig .7s ease}}
+@keyframes icoWig{25%{transform:rotate(-12deg) scale(1.12)}60%{transform:rotate(9deg) scale(1.12)}}
+
+/* ---- manifesto: horizontal icon rows ---- */
+html{color-scheme:light;overscroll-behavior-x:none;touch-action:pan-y pinch-zoom}
+body{overflow-x:hidden;overscroll-behavior-x:none;touch-action:pan-y pinch-zoom;max-width:100%}
+.mani{height:260vh}
+.mani-in{gap:clamp(18px,3.5vh,40px)}
+.mani-p{font-size:clamp(2.1rem,6.2vw,5.4rem);max-width:15ch;scale:1}
+.mrow{width:100vw;margin-inline:calc(50% - 50vw);overflow:hidden;padding-block:56px;margin-block:-38px;pointer-events:none}
+.mtrack{display:flex;gap:18px;width:max-content;padding-inline:max(16px,calc(50vw - 540px));will-change:transform}
+.mt{flex:none;width:clamp(86px,11vw,128px);aspect-ratio:1;border-radius:30%;background:var(--tint);color:#16191F;display:grid;place-items:center;rotate:calc(var(--r,0)*1deg + var(--mp,0)*var(--rs,1)*50deg);box-shadow:0 16px 32px -14px rgba(10,12,20,.45);transition:none}
+.mt svg{width:46%;height:46%;rotate:calc(var(--r,0)*-1deg - var(--mp,0)*var(--rs,1)*50deg);fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.mt svg .d{fill:currentColor}
+.mrow.r2 .mt{--rs:-1}
+html:not(.anim-ready) .mrow{display:none}
+@media (max-width:760px){.mani-p{max-width:12ch}.mtrack{gap:12px}}
+
+/* ---- stacked cards ---- */
+.hero{position:sticky;top:84px}
+.mani{height:215vh;margin-block:0 !important;margin-inline:calc(50% - 50vw);width:100vw;background:color-mix(in srgb,var(--bg) 48%,transparent);-webkit-backdrop-filter:blur(26px) saturate(1.7);backdrop-filter:blur(26px) saturate(1.7);border:1px solid color-mix(in srgb,#fff 55%,transparent);border-bottom:0;border-radius:44px 44px 0 0;box-shadow:0 -26px 60px -34px rgba(10,12,20,.4),inset 0 1px 0 rgba(255,255,255,.7),inset 0 40px 60px -50px rgba(255,255,255,.55);position:relative;z-index:3}
+.mani-in{padding-inline:max(16px,calc(50vw - 540px))}
+.mrow{margin-inline:calc(-1 * max(16px,calc(50vw - 540px)))}
+.mw{color:color-mix(in srgb,var(--ink) calc(var(--t,0)*100%),var(--muted));opacity:calc(.5 + var(--t,0)*.5);filter:blur(calc((1 - var(--t,0))*4px))}
+html:not(.anim-ready) .hero{position:relative;top:0}
+html:not(.anim-ready) .mani{height:auto}
+@media (max-width:760px){.hero{top:70px}.mani{border-radius:28px 28px 0 0}}
+@media (prefers-reduced-motion:reduce){.hero{position:relative;top:0}}
+@media (max-width:760px){
+  .scene{margin-top:48px}
+  .steps li p{display:none}
+  .scene[data-step="0"] .steps li:nth-child(1) p,.scene[data-step="1"] .steps li:nth-child(2) p,.scene[data-step="2"] .steps li:nth-child(3) p{display:block}
+  .steps{gap:14px}
+  .v{padding:14px 16px;align-content:center}
+  .final{margin-top:48px}
+}
+@media (max-width:760px) and (max-height:700px){.vcap{display:none}.v{gap:4px;padding-block:10px}.vr{font-size:.64rem}.vt{height:5px}}
+/* phones: lighter effects so scrolling stays smooth */
+@media (max-width:760px),(pointer:coarse){
+  .mani{-webkit-backdrop-filter:none;backdrop-filter:none;background:color-mix(in srgb,var(--bg) 82%,transparent);box-shadow:0 -14px 30px -22px rgba(10,12,20,.35),inset 0 1px 0 rgba(255,255,255,.7)}
+  .aurora b{filter:blur(34px);opacity:.38}
+  .mw{filter:none}
+  .mt{box-shadow:0 8px 14px -8px rgba(10,12,20,.4)}
+  .chip{-webkit-backdrop-filter:none;backdrop-filter:none}
+  header.scrolled{-webkit-backdrop-filter:none;backdrop-filter:none;background:color-mix(in srgb,var(--bg) 94%,transparent)}
+  .brain .sh{mix-blend-mode:normal;opacity:.8}
+  .tests{box-shadow:0 -14px 30px -22px rgba(10,12,20,.4)}
+  .card:hover{--ty:0px}
+}
+/* phones: no pointer or scroll scrubbing, plain light motion */
+@keyframes mpanL{from{transform:translate3d(0,0,0)}to{transform:translate3d(-34%,0,0)}}
+@keyframes bfloat{from{translate:0 0;rotate:-2deg}to{translate:0 -10px;rotate:3deg}}
+html.lite .hero{position:relative;top:0}
+html.lite .mani{height:auto;margin-block:0 !important}
+html.lite .mani-in{position:static;height:auto;padding-block:56px}
+html.lite .mani-p .mw{--t:1;color:var(--ink);filter:none;opacity:0;translate:0 .5em;transition:opacity .7s ease,translate .7s ease;transition-delay:calc(var(--i,0)*70ms);will-change:auto}
+html.lite .mani-p.go .mw{opacity:1;translate:0 0}
+html.lite .mbar{display:none}
+html.lite .mtrack{animation:mpanL 26s ease-in-out infinite alternate}
+html.lite .mrow.r2 .mtrack{animation-direction:alternate-reverse}
+html.lite .brain{animation:bfloat 6s ease-in-out infinite alternate}
+html.lite .tests{margin-top:24px;min-height:0;padding-block:48px}
+html.lite .mq-t{animation:mqL 40s linear infinite}
+@keyframes mqL{to{transform:translate3d(-50%,0,0)}}
+/* tests: second stacked card */
+.mani{height:355vh}
+.tests{position:relative;z-index:4;margin-top:-100vh;margin-top:-100svh;margin-inline:calc(50% - 50vw);width:100vw;min-height:100vh;min-height:100svh;padding:72px max(16px,calc(50vw - 540px)) 88px;background:var(--bg);border:1px solid var(--line);border-radius:44px;box-shadow:0 -30px 70px -34px rgba(10,12,20,.45),inset 0 1px 0 rgba(255,255,255,.8);margin-bottom:56px}
+.tests .sec-h{margin-bottom:28px}
+.tests .sec-h h2{font-size:clamp(1.6rem,3.4vw,2.4rem)}
+html:not(.anim-ready) .tests{margin-top:40px;min-height:0}
+@media (max-width:760px){.tests{border-radius:28px;padding-top:48px;padding-bottom:56px}}
+@media (prefers-reduced-motion:reduce){.tests{margin-top:40px;min-height:0}.mani{height:auto}}
+/* cursor glow: frosted gradient that follows the pointer everywhere */
+#glow{position:fixed;left:0;top:0;width:46vmin;height:46vmin;margin:-23vmin 0 0 -23vmin;border-radius:50%;pointer-events:none;z-index:15;mix-blend-mode:multiply;opacity:0;scale:1;background:radial-gradient(circle,color-mix(in srgb,var(--cc) 62%,transparent) 0%,color-mix(in srgb,var(--cc) 30%,transparent) 42%,transparent 70%);filter:blur(34px);transition:opacity .5s,scale .55s cubic-bezier(.2,.9,.2,1);will-change:translate,scale}
+#glow.on{opacity:.7}
+#glow.tight{scale:.8}
+.aurora .sp{display:none}
+@media not all{:root:not([data-theme="light"]) #glow{mix-blend-mode:screen}:root:not([data-theme="light"]) #glow.on{opacity:.5}}
+:root[data-theme="x-off"] #glow{mix-blend-mode:screen}
+:root[data-theme="x-off"] #glow.on{opacity:.5}
+/* cursor colour picker */
+.hr{display:flex;align-items:center;gap:10px}
+.cpick{position:relative;display:none}
+@media (hover:hover) and (pointer:fine){.cpick{display:block}}
+.cdot{width:30px;height:30px;border-radius:50%;border:1px solid color-mix(in srgb,#fff 60%,var(--line));padding:0;background:radial-gradient(circle at 34% 30%,color-mix(in srgb,var(--cc) 60%,#fff),var(--cc));box-shadow:0 4px 14px -4px color-mix(in srgb,var(--cc) 70%,transparent),inset 0 1px 4px rgba(255,255,255,.6);transition:transform .25s cubic-bezier(.2,.9,.2,1)}
+.cdot:hover{transform:scale(1.12)}
+.cpop{position:absolute;right:0;top:calc(100% + 10px);display:grid;grid-template-columns:repeat(3,28px);gap:12px;padding:14px;border-radius:20px;background:color-mix(in srgb,var(--surface) 70%,transparent);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);border:1px solid color-mix(in srgb,#fff 50%,var(--line));box-shadow:0 24px 50px -22px rgba(10,12,20,.5);opacity:0;scale:.9;transform-origin:top right;pointer-events:none;transition:opacity .2s,scale .3s cubic-bezier(.2,.9,.2,1);z-index:30}
+.cpick.open .cpop{opacity:1;scale:1;pointer-events:auto}
+.sw{width:28px;height:28px;border-radius:50%;border:2px solid transparent;padding:0;background:radial-gradient(circle at 34% 30%,color-mix(in srgb,var(--c) 55%,#fff),var(--c));box-shadow:inset 0 1px 3px rgba(255,255,255,.55);transition:transform .2s}
+.sw:hover{transform:scale(1.15)}
+.sw[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--bg) inset}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <button class="logo" id="home" type="button"><i></i><span id="brand"></span></button>
+    <div class="hr">
+      <div class="cpick" id="cpick"><button class="cdot" id="cdot" type="button" aria-label="Glow colour" aria-expanded="false"></button><div class="cpop" id="cpop" role="group" aria-label="Glow colour"></div></div>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-l="ua" aria-pressed="true">UA</button>
+        <button type="button" data-l="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+  <main id="app"></main>
+  <footer id="foot"></footer>
+</div>
+<div id="prog" aria-hidden="true"></div>
+<div id="glow" aria-hidden="true"></div>
+<div id="cur" aria-hidden="true"></div>
+<div id="toastbox" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+var UI={
+ua:{brand:"Головна гра",
+ h1a:"З тобою все гаразд.",h1b:"Це просто мозок",h1c:"грає в гру.",
+ lead:"Короткі тести без діагнозів і душності. Дізнаєшся, що відбувається в голові, і як із цим жити.",
+ start:"Пройти перший тест",free:"Тести безкоштовні. Результат прийде на email.",
+ all:"Усі тести",soon:"Скоро",live:"Відкрити",min:"хв",
+ p1t:"Без діагнозів",p1:"Це самопізнання, а не медичний висновок. Ми чесно кажемо, коли варто піти до фахівця.",
+ p2t:"З гумором",p2:"Жодних лякалок. Розбір написаний так, ніби його читає друг, що тебе любить.",
+ p3t:"З діями",p3:"Після кожного тесту є конкретні кроки на сьогодні, а за бажанням ще й PDF-гайд.",
+ foot:"Тести є інструментом самопізнання і не замінюють консультацію психолога чи лікаря. Це демо-версія сайту.",
+ q:"Питання",of:"з",back:"Назад",home:"На головну",
+ gT:"Твій результат готовий!",gP:"Введи email, щоб отримати детальний розбір, відсоток збігу та рекомендації.",
+ em:"Твій email",cons:"Погоджуюсь з політикою конфіденційності",show:"Показати результат",
+ eBad:"Перевір email: схоже, у ньому помилка.",eCons:"Постав галочку згоди, щоб продовжити.",
+ match:"Збіг",toLow:"майже не про тебе",toHigh:"дуже про тебе",
+ who:"До кого звертатись",offer:"Гайд для тебе",buy:"Купити гайд за",
+ left:"Персональна знижка −30% ще",ended:"Знижка закінчилась",
+ demo:"Це демо: оплата підключається через Stripe або WayForPay під час деплою. Зараз гроші не списуються.",
+ again:"Пройти ще раз",moreTests:"Інші тести",bonus:"Бонуси",try:"Що зробити сьогодні",
+ soonToast:"Цей тест ще пишеться. Спробуй «Синдром самозванця».",day:"День",qs:"питання",
+ hint:"Підказка: тисни 1-5 на клавіатурі, щоб обрати відповідь. Стрілка ← повертає назад.",scroll:"Скроль",
+ mani:"Твій мозок просто грає в гру. Ми покажемо її правила.",
+ howT:"Як це працює",
+ steps:[["Відповідаєш чесно","32 короткі твердження. Правильних відповідей немає, є лише твоя реальність. Клавіші 1-5 прискорюють процес."],["Бачиш свій профіль","Не просто відсоток, а 8 вимірів: звідки саме росте сумнів і що його підживлює."],["Робиш маленький крок","Для двох головних вимірів одразу є вправа на тиждень. Захочеш глибше, є PDF-гайд."]],
+ sample:"Приклад профілю",tasks:["Записати 3 дії, що привели до успіху","Відповісти на похвалу: «Дякую»","Таймер на перевірку: 10 хвилин"],
+ ctaT:"Починаємо?",
+ mq:["З тобою все гаразд","Головна гра","Без діагнозів","Без душності","32 питання про тебе","Трохи іронії","Багато користі"],
+ profile:"Твій профіль за 8 вимірами",profileNote:"Загальний відсоток є середнім. Профіль показує, звідки саме росте самозванець.",
+ drivers:"Що зараз його підживлює",noDrv:"Жоден вимір не виділяється високо. Це гарний знак.",lvl:["низько","помірно","високо"],
+ half:"Половина шляху позаду. Відповідай як є, а не як «правильно».",
+ costNote:"Твої відповіді показують, що сумніви вже зачіпають сон, відпочинок чи самооцінку. Тому порада поговорити з психотерапевтом тут не формальність."},
+en:{brand:"Head Game",
+ h1a:"You're fine.",h1b:"Your brain is just",h1c:"playing a game.",
+ lead:"Short quizzes with no diagnoses and no lectures. See what's going on in your head and how to live with it.",
+ start:"Take the first quiz",free:"Quizzes are free. Your result arrives by email.",
+ all:"All quizzes",soon:"Soon",live:"Open",min:"min",
+ p1t:"No diagnoses",p1:"This is self-discovery, not a medical opinion. We say plainly when it's time to see a professional.",
+ p2t:"With humor",p2:"No scare tactics. The breakdown reads like a friend who likes you wrote it.",
+ p3t:"With action",p3:"Every quiz ends with concrete steps for today and, if you want, a PDF guide.",
+ foot:"Quizzes are a self-discovery tool and do not replace a psychologist or doctor. This is a demo version of the site.",
+ q:"Question",of:"of",back:"Back",home:"Home",
+ gT:"Your result is ready!",gP:"Enter your email to get the detailed breakdown, your match percentage and recommendations.",
+ em:"Your email",cons:"I agree to the privacy policy",show:"Show my result",
+ eBad:"Check your email: it looks like it has a typo.",eCons:"Tick the consent box to continue.",
+ match:"Match",toLow:"hardly you",toHigh:"very much you",
+ who:"Who to turn to",offer:"A guide for you",buy:"Get the guide for",
+ left:"Your personal −30% discount ends in",ended:"The discount has ended",
+ demo:"This is a demo: payment connects through Stripe or WayForPay at deploy time. Nothing is charged now.",
+ again:"Take it again",moreTests:"More quizzes",bonus:"Bonuses",try:"What to do today",
+ soonToast:"This quiz is still being written. Try “Imposter Syndrome”.",day:"Day",qs:"questions",
+ hint:"Tip: press 1-5 on your keyboard to pick an answer. The ← key goes back.",scroll:"Scroll",
+ mani:"Your brain is just playing a game. We'll show you its rules.",
+ howT:"How it works",
+ steps:[["Answer honestly","32 short statements. There are no right answers, only your reality. Keys 1-5 speed things up."],["See your profile","Not just a percentage but 8 dimensions: where the doubt grows from and what feeds it."],["Take a small step","For your two top dimensions there's an exercise for the week. Want more? There's a PDF guide."]],
+ sample:"Sample profile",tasks:["Write down 3 actions behind a win","Answer praise with “Thanks”","Checking timer: 10 minutes"],
+ ctaT:"Shall we?",
+ mq:["You're fine","Head Game","No diagnoses","No lectures","32 questions about you","A bit of irony","A lot of use"],
+ profile:"Your profile across 8 dimensions",profileNote:"The overall percentage is an average. The profile shows where your imposter actually grows from.",
+ drivers:"What feeds it right now",noDrv:"No dimension stands out as high. That's a good sign.",lvl:["low","moderate","high"],
+ half:"Halfway there. Answer as it is, not as it “should” be.",
+ costNote:"Your answers suggest the doubts already affect your sleep, rest or self-esteem, so the advice to talk to a therapist is not a formality here."}
+};
+
+var TESTS=[
+ {id:"imposter",n:"1",t:"yellow",min:7,q:32,live:true,
+  ua:["Синдром самозванця","Ти справді «просто пощастило»? Спойлер: ні."],en:["Imposter Syndrome","Did you really just “get lucky”? Spoiler: no."]},
+ {id:"shadow",n:"2",t:"pink",min:4,ua:["Тіньова сторона","Хто живе в підвалі твоєї особистості?"],en:["Shadow Self","Who lives in the basement of your personality?"]},
+ {id:"burnout",n:"3",t:"mint",min:4,ua:["Вигорання","Батарейка на 1%, а ти ще й чат відкриваєш."],en:["Burnout","Battery at 1%, and you're still opening the work chat."]},
+ {id:"anxiety",n:"4",t:"blue",min:3,ua:["Тривожність","Мозок знову дивиться трилери замість відпочинку?"],en:["Anxiety Spectrum","Is your brain binge-watching thrillers again?"]},
+ {id:"attach",n:"5",t:"pink",min:5,ua:["Тип прив'язаності","Ти якір, повітряна кулька чи дикий кіт?"],en:["Attachment Style","Are you an anchor, a balloon or a feral cat?"]},
+ {id:"main",n:"6",t:"yellow",min:3,ua:["Головний герой","Це точно твій епізод, чи просто гарне світло?"],en:["Main Character Syndrome","Is this really your episode, or just good lighting?"]},
+ {id:"love",n:"7",t:"mint",min:4,ua:["Мови кохання","Як тобі кажуть «люблю», а ти не чуєш?"],en:["Love Languages","How do they say “I love you” while you miss it?"]},
+ {id:"adhd",n:"8",t:"blue",min:5,ua:["СДУГ у дорослих","Скринінг, а не вирок. Теж без діагнозів."],en:["Adult ADHD Screening","A screening, not a verdict. Still no diagnoses."]},
+ {id:"perfect",n:"9",t:"yellow",min:4,ua:["Перфекціонізм","Ще одна правка, і буде ідеально. Ні, ще одна."],en:["Perfectionism","One more tweak and it will be perfect. No, one more."]},
+ {id:"procrast",n:"10",t:"pink",min:4,ua:["Прокрастинація","Зроблю завтра. А коли настане це завтра?"],en:["Procrastination","I'll do it tomorrow. When exactly is tomorrow?"]},
+ {id:"social",n:"11",t:"mint",min:4,ua:["Червоні прапорці","Просто зайнятий(-а) чи це вже сигнал тікати?"],en:["Red Flags","Just busy, or time to run?"]},
+ {id:"critic",n:"12",t:"blue",min:5,ua:["Внутрішній критик","Той голос у голові: колега чи ворог?"],en:["Inner Critic","That voice in your head: a coach or a bully?"]}
+];
+
+var IMP={
+ scale:{ua:["Зовсім не про мене","Скоріше ні","Буває по-різному","Скоріше так","Це 100% я"],en:["Not me at all","Not really","Sometimes","Pretty much","This is 100% me"]},
+ DIMS:[
+ {
+  "id": "fraud",
+  "ua": {
+   "n": "Відчуття підробки",
+   "why": "Тихий внутрішній голос каже, що насправді в тебе менше навичок, ніж думають інші, і це лише питання часу.",
+   "act": "Протягом тижня щовечора записуй одну ситуацію, яка вдалась завдяки тобі. Без оцінок, лише факти: які були твої дії і який результат."
+  },
+  "en": {
+   "n": "Feeling like a fraud",
+   "why": "A quiet voice says you're less capable than others believe, and it's only a matter of time before that shows.",
+   "act": "Each evening for a week, write one situation that worked out because of you. Skip the verdict; note the facts: what you did and the result."
+  },
+  "items": [
+   {
+    "r": 1,
+    "ua": "Я відчуваю себе на своєму місці, навіть коли поруч люди з більшим досвідом.",
+    "en": "I feel I belong, even when people with more experience are around."
+   },
+   {
+    "r": 0,
+    "ua": "Іноді мені здається, що в мене менше навичок, ніж про мене думають.",
+    "en": "Sometimes I feel I'm less capable than people think I am."
+   },
+   {
+    "r": 0,
+    "ua": "Я ніби граю роль людини, яка знає, що робить, а всередині відчуваю непевність.",
+    "en": "I feel like I'm playing someone who knows what they're doing, while inside I'm unsure."
+   },
+   {
+    "r": 0,
+    "ua": "Коли мене називають експертом, я подумки шукаю, де мене можуть «зловити».",
+    "en": "When someone calls me an expert, I quietly search for where I might get caught out."
+   }
+  ]
+ },
+ {
+  "id": "luck",
+  "ua": {
+   "n": "Успіх = випадок",
+   "why": "Успіхи ти пояснюєш удачею, таймінгом чи чужою допомогою, а невдачі пояснюєш собою. Це перекіс в оцінці, а не точна картина.",
+   "act": "Перед тим як сказати «пощастило», запиши три власні дії, що до цього привели. Якщо удача лишається, то вона працювала разом із твоїми діями."
+  },
+  "en": {
+   "n": "Success = luck",
+   "why": "You credit wins to luck, timing or other people's help, and blame yourself for setbacks. That's a skew, not an accurate picture.",
+   "act": "Before saying “I got lucky,” write down three actions of your own that led there. If luck remains, it worked together with your actions."
+  },
+  "items": [
+   {
+    "r": 0,
+    "ua": "Свої успіхи я частіше пояснюю везінням, ніж власними зусиллями.",
+    "en": "I explain my successes by luck more often than by my own effort."
+   },
+   {
+    "r": 1,
+    "ua": "Коли мені щось вдається, я чітко бачу, які мої дії до цього призвели.",
+    "en": "When something works out, I can clearly see which of my actions led to it."
+   },
+   {
+    "r": 0,
+    "ua": "Коли щось виходить добре, я думаю, що це просто вдалий збіг обставин.",
+    "en": "When something goes well, I think it was just a lucky coincidence."
+   },
+   {
+    "r": 0,
+    "ua": "Мені здається, що я отримую ролі чи місця тому, що «так склалось», а не через свої здібності.",
+    "en": "I suspect I get roles or places because things “just worked out,” not because of my abilities."
+   }
+  ]
+ },
+ {
+  "id": "exposure",
+  "ua": {
+   "n": "Страх викриття",
+   "why": "Ти постійно перевіряєш, чи хтось не помітив твою «слабкість», тож частина сил іде на охорону образу, а не на саму роботу.",
+   "act": "Раз на тиждень дозволь собі маленьку недосконалість при людях: признайся, що чогось не знаєш. Подивись, що станеться насправді."
+  },
+  "en": {
+   "n": "Fear of exposure",
+   "why": "You keep checking whether anyone has spotted your “weakness,” so part of your energy goes to guarding an image instead of doing the work.",
+   "act": "Once a week, allow yourself a small imperfection in public: admit you don't know something. Notice what actually happens."
+  },
+  "items": [
+   {
+    "r": 0,
+    "ua": "Я боюсь, що колись люди зрозуміють, що я знаю менше, ніж здається.",
+    "en": "I fear that people will eventually realize I know less than it seems."
+   },
+   {
+    "r": 0,
+    "ua": "Я приховую, що чогось не розумію, щоб не виглядати некомпетентно.",
+    "en": "I hide that I don't understand something so I don't look incompetent."
+   },
+   {
+    "r": 1,
+    "ua": "Я спокійно кажу «не знаю, давайте з'ясуємо», коли чогось не знаю.",
+    "en": "I calmly say “I don't know, let's find out” when I don't know something."
+   },
+   {
+    "r": 0,
+    "ua": "Перед зустрічами чи презентаціями я уявляю, як мене «викривають» на очах у всіх.",
+    "en": "Before meetings or presentations I imagine being “found out” in front of everyone."
+   }
+  ]
+ },
+ {
+  "id": "perfect",
+  "ua": {
+   "n": "Перфекціонізм і перепідготовка",
+   "why": "Мати високі стандарти добре, але ти міряєш себе «ідеалом», а не «достатньо добре». Звідси нескінченні перевірки, відкладання й виснаження.",
+   "act": "Постав таймер на перевірку (наприклад, 10 хвилин) і здавай роботу, коли він дзвенить. Занотуй, як насправді відреагували люди."
+  },
+  "en": {
+   "n": "Perfectionism and over-preparing",
+   "why": "High standards are fine, but you measure yourself against “perfect” instead of “good enough.” That leads to endless checking, procrastination and exhaustion.",
+   "act": "Set a timer for checking (say, 10 minutes) and hand the work in when it rings. Note how people really reacted."
+  },
+  "items": [
+   {
+    "r": 0,
+    "ua": "Перед тим як здати роботу, я перевіряю її знову й знову, бо будь-яка помилка здається катастрофою.",
+    "en": "Before handing in work, I check it again and again because any mistake feels like a catastrophe."
+   },
+   {
+    "r": 0,
+    "ua": "Я готуюсь значно більше, ніж потрібно, щоб на всякий випадок не лишити жодної слабкої точки.",
+    "en": "I prepare far more than needed so that no weak spot is left, just in case."
+   },
+   {
+    "r": 0,
+    "ua": "Результат «добре» мене не влаштовує: або ідеально, або це провал.",
+    "en": "“Good” isn't enough for me: it's either perfect or it's a failure."
+   },
+   {
+    "r": 1,
+    "ua": "Я можу здати роботу, яка достатньо хороша, навіть якщо в ній є дрібні недоліки.",
+    "en": "I can hand in work that's good enough even if it has minor flaws."
+   }
+  ]
+ },
+ {
+  "id": "praise",
+  "ua": {
+   "n": "Знецінення похвали",
+   "why": "Позитивний відгук до тебе не доходить: ти перекладаєш його на ввічливість чи випадок, тому внутрішня картина про себе не оновлюється.",
+   "act": "Збирай 5 найкращих відгуків в окрему нотатку й перечитуй перед важливими моментами. Коли хвалять, відповідай одним словом: «Дякую»."
+  },
+  "en": {
+   "n": "Discounting praise",
+   "why": "Positive feedback doesn't land: you translate it into politeness or chance, so your inner picture of yourself never updates.",
+   "act": "Keep your 5 best pieces of feedback in one note and reread it before big moments. When praised, answer with one word: “Thanks.”"
+  },
+  "items": [
+   {
+    "r": 1,
+    "ua": "Я вмію просто прийняти похвалу й відповісти «дякую».",
+    "en": "I can simply accept praise and answer “thank you.”"
+   },
+   {
+    "r": 0,
+    "ua": "Коли мене хвалять, я думаю, що люди просто ввічливі або не бачать повної картини.",
+    "en": "When I'm praised, I think people are just being polite or don't see the full picture."
+   },
+   {
+    "r": 0,
+    "ua": "Я швидко відмахуюсь від компліментів: «та це дрібниці».",
+    "en": "I quickly brush off compliments: “oh, it's nothing.”"
+   },
+   {
+    "r": 0,
+    "ua": "Позитивні відгуки я забуваю швидко, а критику пам'ятаю роками.",
+    "en": "I forget positive feedback quickly, while I remember criticism for years."
+   }
+  ]
+ },
+ {
+  "id": "compare",
+  "ua": {
+   "n": "Порівняння з іншими",
+   "why": "Ти порівнюєш свою закулісну кухню з чужою вітриною: бачиш чужі результати, а чужих сумнівів не бачиш.",
+   "act": "Обери одну-двох людей, з ким себе порівнюєш, і запиши, чого ти про них не знаєш. На тиждень прибери стрічки з чужими кар'єрними перемогами."
+  },
+  "en": {
+   "n": "Comparing yourself to others",
+   "why": "You compare your backstage kitchen with other people's shop windows: you see their results but never their doubts.",
+   "act": "Pick one or two people you compare yourself to and write down what you don't know about them. For a week, mute feeds full of other people's career wins."
+  },
+  "items": [
+   {
+    "r": 0,
+    "ua": "Мої досягнення здаються мені меншими, ніж у інших, навіть якщо факти кажуть інше.",
+    "en": "My achievements feel smaller than other people's, even when the facts say otherwise."
+   },
+   {
+    "r": 1,
+    "ua": "Чужі досягнення мене скоріше надихають, ніж змушують сумніватись у собі.",
+    "en": "Other people's achievements inspire me more than they make me doubt myself."
+   },
+   {
+    "r": 0,
+    "ua": "Побачивши чужий успіх, я одразу думаю, що в мене такого ніколи не буде.",
+    "en": "When I see someone else's success, I immediately think I'll never have that."
+   },
+   {
+    "r": 0,
+    "ua": "Я порівнюю свій «закулісний» процес із чужими «готовими результатами» в стрічках.",
+    "en": "I compare my behind-the-scenes process with other people's finished highlights online."
+   }
+  ]
+ },
+ {
+  "id": "shrink",
+  "ua": {
+   "n": "Ухиляння й применшення",
+   "why": "Ти уникаєш ризику, помітних ролей і навіть запитань, щоб не підставитись, і вибачаєшся за власну присутність.",
+   "act": "Заміни «вибач, що відволікаю» на «дякую, що знайшли час». Раз на тиждень бери одну можливість, яку зазвичай пропускаєш."
+  },
+  "en": {
+   "n": "Shrinking back",
+   "why": "You avoid risk, visible roles and even questions so you won't get exposed, and you apologize for simply being present.",
+   "act": "Swap “sorry to bother you” for “thanks for making time.” Once a week, take one opportunity you'd normally skip."
+  },
+  "items": [
+   {
+    "r": 0,
+    "ua": "Я часто вибачаюсь за те, що займаю чийсь час, місце чи увагу.",
+    "en": "I often apologize for taking up someone's time, space, or attention."
+   },
+   {
+    "r": 0,
+    "ua": "Я уникаю нових викликів, якщо немає майже гарантії, що все вийде.",
+    "en": "I avoid new challenges unless I'm almost guaranteed to succeed."
+   },
+   {
+    "r": 1,
+    "ua": "Я можу попросити про підвищення, допомогу чи особливі умови без відчуття провини.",
+    "en": "I can ask for a raise, help or special conditions without feeling guilty."
+   },
+   {
+    "r": 0,
+    "ua": "Я мовчу на обговореннях, навіть коли в мене є ідея, бо боюсь сказати щось «не те».",
+    "en": "I stay quiet in discussions even when I have an idea, because I'm afraid to say the wrong thing."
+   }
+  ]
+ },
+ {
+  "id": "cost",
+  "ua": {
+   "n": "Ціна для самопочуття",
+   "why": "Сумніви вже зачіпають сон, відпочинок і відчуття власної цінності, а самооцінка надто залежить від результату.",
+   "act": "Введи вечірню межу: після певної години жодних перевірок роботи. Якщо це триває місяцями, обговори з психотерапевтом: КПТ добре працює з такими думками."
+  },
+  "en": {
+   "n": "Toll on well-being",
+   "why": "The doubts already touch your sleep, rest and sense of worth, and your self-esteem depends too much on results.",
+   "act": "Set an evening boundary: no checking work after a set hour. If this has lasted for months, talk to a therapist: CBT works well with these thoughts."
+  },
+  "items": [
+   {
+    "r": 0,
+    "ua": "Через сумніви в собі мені важко розслабитись навіть у вихідні.",
+    "en": "Doubts about myself make it hard to relax even on days off."
+   },
+   {
+    "r": 0,
+    "ua": "Моя самооцінка за день сильно залежить від того, як пройшла робота чи навчання.",
+    "en": "My self-esteem on any given day depends heavily on how work or study went."
+   },
+   {
+    "r": 0,
+    "ua": "Страх «не потягнути» впливає на мій сон або самопочуття.",
+    "en": "The fear of “not being able to handle it” affects my sleep or well-being."
+   },
+   {
+    "r": 1,
+    "ua": "Навіть після невдачі я зберігаю відчуття власної цінності.",
+    "en": "Even after a setback, I keep my sense of self-worth."
+   }
+  ]
+ }
+],
+ bands:[
+  {max:39,id:"low",
+   ua:{h:"Здорова самокритика",p:["Ти сумніваєшся рівно стільки, щоб не втратити почуття реальності, і не настільки, щоб це псувало життя. Це нормально, і це добре.","Самозванець у тебе не прописаний. Він іноді дзвонить у двері, але ти не відчиняєш."],tr:["Запиши одну річ, яка вийшла в тебе цього тижня. Просто для архіву.","Коли хвалять, скажи «дякую» без виправдань."],bullets:[]},
+   en:{h:"Healthy Self-Doubt",p:["You doubt yourself just enough to stay grounded, and not enough to spoil your days. That's normal, and it's good.","The imposter isn't registered at your address. It rings the bell sometimes, but you don't open the door."],tr:["Write down one thing that went well this week. Just for the archive.","When someone praises you, say “thank you” without disclaimers."],bullets:[]}},
+  {max:64,id:"mid",
+   ua:{h:"Внутрішній критик підробляє на півставки",p:["Самозванець заходить у гості, але ще не розпакував валізи. Він з'являється в нових ситуаціях: нова робота, нова роль, великий дедлайн.","Хороша новина: на цьому етапі його дуже легко приручити. Погана: якщо його годувати перфекціонізмом, він почне ночувати."],tr:["Запиши 3 речі, які вдалися тобі цього тижня, і які твої дії до цього привели.","Замість «вибач за турботу» спробуй «дякую, що знайшов час»."],bullets:[]},
+   en:{h:"Your Inner Critic Works Part-Time",p:["The imposter visits but hasn't unpacked yet. It shows up in new situations: a new job, a new role, a big deadline.","The good news: at this stage it's easy to tame. The bad news: feed it perfectionism and it starts sleeping over."],tr:["Write down 3 things you did this week and what exactly you did to make them happen.","Swap “sorry for bothering you” for “thanks for making time.”"],bullets:[]}},
+  {max:100,id:"high",
+   ua:{h:"Самозванець у тебе на ставці (і працює понаднормово)",p:["Привіт. Спершу найважливіше: з тобою все гаразд. Це не діагноз і не «дефект характеру». Це твій мозок, який вирішив, що найкраща стратегія виживання: постійно перевіряти, чи тебе ще не «викрили».","Що, імовірно, відбувається:"],
+     bullets:["<b>Похвала відскакує, як горох від стіни.</b> Ти чуєш «молодець», а всередині: «Ну, це було легко». Успіх завжди зарахований комусь іншому: удачі, команді, фазі місяця.","<b>Помилка прилипає, як жуйка до підошви.</b> Одне невдале слово на мітингу ти можеш програвати в голові до вівторка.","<b>Ти вибачаєшся за існування.</b> «Вибач, що відволікаю», «Вибач, якщо це дурне питання». Іноді хочеться вибачитись навіть перед дверима.","<b>Ти живеш із внутрішнім аудитором,</b> який приходить без запрошення і завжди знаходить «порушення»."],
+     after:"Найчастіше цей патерн трапляється у людей, які старанні, відповідальні й мають високі стандарти. Парадокс: ті, хто справді не вміє щось робити, зазвичай цього не помічають. Тож твої сумніви ще не доказ некомпетентності. Радше навпаки.",
+     tr:["Запиши 3 речі, які вдалися тобі цього тижня, і поруч дії, що до цього привели (не «пощастило», а факти).","Коли тебе хвалять, відповідай просто: «Дякую». Без «та це дрібниці».","Замість «вибач за турботу» спробуй «дякую, що знайшов час»."]},
+   en:{h:"The Imposter Has Your Number (and Is Working Overtime)",p:["Hi. First, the important part: you're okay. This isn't a diagnosis or a character flaw. It's your brain deciding the best survival strategy is to keep checking whether you've been “found out” yet.","What's probably going on:"],
+     bullets:["<b>Praise bounces off like a pea off a wall.</b> You hear “great job” and inside: “It was easy anyway.” Success always gets credited to someone else: luck, the team, the phase of the moon.","<b>Mistakes stick like gum on a shoe.</b> One awkward sentence in a meeting can replay in your head until Tuesday.","<b>You apologize for existing.</b> “Sorry to bother you,” “Sorry if this is a dumb question.” Sometimes you could apologize to the door.","<b>You live with an internal auditor</b> who shows up uninvited and always finds “violations.”"],
+     after:"This pattern most often shows up in people who are diligent, responsible and hold high standards. The paradox: people who truly can't do something rarely notice. So your doubt isn't proof of incompetence. If anything, the opposite.",
+     tr:["Write down 3 things you did this week, and next to each, “what exactly did I do to make it happen” (actions, not “luck”).","When someone praises you, answer just: “Thank you.” No “oh, it was nothing.”","Swap “sorry for bothering you” for “thanks for making time.”"]}}
+ ],
+ who:{
+  ua:["Самодопомоги зазвичай достатньо, якщо сумніви виникають у нових ситуаціях (нова робота, нова роль) і не руйнують твій побут.","Варто звернутись до психотерапевта, якщо це триває місяцями, супроводжується безсонням, постійною тривогою чи відчуттям порожнечі, або ти уникаєш можливостей через страх «викриття». Добре працює <b>КПТ</b> (когнітивно-поведінкова терапія) для роботи з думками-«вироками», а <b>схема-терапія</b> допомагає, коли за сумнівами стоять глибокі установки з раннього досвіду. Це не діагноз, а орієнтир."],
+  en:["Self-help is usually enough if doubts appear in new situations (new job, new role) and don't wreck your daily life.","Consider a therapist if this has lasted for months, comes with insomnia, constant anxiety or a sense of emptiness, or you avoid opportunities out of fear of being “exposed.” <b>CBT</b> (cognitive behavioral therapy) works well on those verdict-like thoughts, and <b>schema therapy</b> helps when the doubts trace back to deep beliefs from early life. This isn't a diagnosis, just a compass."]},
+ guide:{
+  ua:{t:"Вимкни самозванця: як перестати вибачатись за те, що ти існуєш",d:"Готовий PDF-гайд по цій темі, підготовлений професійно: без води й мотиваційних цитат, лише цінна інформація. Приходить на email одразу після оплати.",
+   days:["Що це за явище і чому мозок так робить","Як воно проявляється в житті: впізнаєш себе","Як із цього виходити: вправи, готові фрази, скрипти","Як покращувати себе далі: звички та план на місяць","Коли варто звернутися до фахівця і до якого"],
+   bonus:["чекліст «Розмова з внутрішнім критиком»","шаблон листа «Прошу підвищення»"]},
+  en:{t:"Mute Your Imposter: Stop Apologizing for Existing",d:"A ready-made PDF guide on this topic, written professionally: no filler, no motivational quotes, just valuable information. It lands in your inbox right after payment.",
+   days:["What this is and why your brain does it","How it shows up in real life: you will recognize yourself","How to get out: exercises, ready-made phrases, scripts","How to keep improving: habits and a one-month plan","When to see a professional and which kind"],
+   bonus:["“Talking back to your inner critic” checklist","“Asking for a raise” email template"]},
+  price:{ua:["€10","€10"],en:["€10","€10"]}
+ }
+};
+
+IMP.qs=[];
+for(var k=0;k<4;k++)IMP.DIMS.forEach(function(dm,d){var x=dm.items[k];IMP.qs.push({d:d,r:x.r,ua:x.ua,en:x.en})});
+
+var S={lang:"ua",view:"home",i:0,dir:1,ans:[],email:"",consent:false,err:"",pct:0};
+try{var sv=localStorage.getItem("mg-lang");if(sv==="en"||sv==="ua")S.lang=sv}catch(e){}
+var app=document.getElementById("app");
+
+function t(k){return UI[S.lang][k]}
+function dimScores(){
+  var D=IMP.DIMS.length,sum=[],cnt=[],d;
+  for(d=0;d<D;d++){sum.push(0);cnt.push(0)}
+  IMP.qs.forEach(function(q,i){var a=S.ans[i]||1,v=q.r?6-a:a;sum[q.d]+=v-1;cnt[q.d]+=1});
+  return sum.map(function(x,d){return Math.round(x/(cnt[d]*4)*100)});
+}
+function pct(){var ds=dimScores();return Math.round(ds.reduce(function(a,b){return a+b},0)/ds.length)}
+function band(p){for(var i=0;i<IMP.bands.length;i++)if(p<=IMP.bands[i].max)return IMP.bands[i];return IMP.bands[2]}
+function toast(m){
+  var b=document.getElementById("toastbox");b.innerHTML="";
+  var d=document.createElement("div");d.className="toast";d.textContent=m;b.appendChild(d);
+  setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d)},3600);
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+function chrome(){
+  document.documentElement.lang=S.lang==="ua"?"uk":"en";
+  document.getElementById("brand").textContent=t("brand");
+  document.getElementById("foot").textContent=t("foot");
+  document.title=t("brand");
+  document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.l===S.lang))});
+}
+
+/* ---------- home ---------- */
+function words(str,i0){return str.split(" ").map(function(w,k){return '<span class="w"><span style="--i:'+(i0+k)+'">'+esc(w)+'</span></span>'}).join(" ")}
+function mqHtml(rev){
+  var a=t("mq").slice();if(rev)a.reverse();
+  var h=a.map(function(p){return '<span>'+esc(p)+'</span><i class="dot"></i>'}).join("");
+  return h+h;
+}
+var ICONS=[
+'<path d="M5 4h14v8a7 7 0 0 1-14 0z"/><circle cx="9.3" cy="10" r=".6" class="d"/><circle cx="14.7" cy="10" r=".6" class="d"/><path d="M9 14.3c1.8 1.6 4.2 1.6 6 0"/>',
+'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+'<rect x="3" y="8" width="16" height="9" rx="2.5"/><path d="M21.5 11v3"/><path d="M6.5 11.5v2"/>',
+'<path d="M2.5 12h4l2.2-6 4 12 2.3-6h6.5"/>',
+'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+'<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"/>',
+'<path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10z"/>',
+'<path d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"/>',
+'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".7" class="d"/>',
+'<path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/>',
+'<path d="M5.5 21V3.5"/><path d="M5.5 4.5h12l-2.6 4 2.6 4h-12"/>',
+'<path d="M4 5h16v11H11l-4.5 4v-4H4z"/><path d="M8.5 10h7"/>'];
+function ico(i){return '<svg viewBox="0 0 24 24" aria-hidden="true">'+ICONS[i]+'</svg>'}
+function mrow(k){
+  var ord=[],i;for(i=0;i<TESTS.length;i++)ord.push(i);
+  if(k)ord=ord.slice(6).concat(ord.slice(0,6)).reverse();
+  return '<div class="mrow r'+(k+1)+'" aria-hidden="true"><div class="mtrack">'+ord.map(function(i,n){return '<span class="mt t-'+TESTS[i].t+'" style="--r:'+((n%2?4:-4)+(k?2:0))+'">'+ico(i)+'</span>'}).join("")+'</div></div>';
+}
+function home(){
+  var cards=TESTS.map(function(x,i){
+    var c=x[S.lang];
+    return '<button class="card t-'+x.t+'" data-test="'+x.id+'" data-rv style="--i:'+(i%4)+';--rr:'+(i%2?2:-2)+'deg" type="button">'+
+      '<span class="blob">'+ico(i)+'</span><h3>'+esc(c[0])+'</h3><p>'+esc(c[1])+'</p>'+
+      '<span class="meta"><span>'+(x.q?x.q+' '+t("qs")+' · ':'')+x.min+' '+t("min")+'</span><span class="pill'+(x.live?' live':'')+'">'+(x.live?t("live"):t("soon"))+'</span></span></button>';
+  }).join("");
+  var a=t("h1a"),b=t("h1b"),c=t("h1c"),na=a.split(" ").length,nb=b.split(" ").length;
+  var h1=words(a,0)+' <br>'+words(b,na)+' <mark>'+words(c,na+nb)+'</mark>';
+  var mani=t("mani").split(" ").map(function(w){return '<span class="mw">'+esc(w)+'</span>'}).join(" ");
+  var st=t("steps").map(function(x,i){return '<li><span class="sn">0'+(i+1)+'</span><div><h3>'+esc(x[0])+'</h3><p>'+esc(x[1])+'</p></div></li>'}).join("");
+  var tg=[78,64,71,52,83,60,45,69],hi={0:1,4:1};
+  var bars=IMP.DIMS.map(function(d,i){return '<div class="vr'+(hi[i]?' hi':'')+'"><span>'+esc(d[S.lang].n)+'</span><div class="vt"><i style="--t:'+tg[i]+'"></i></div></div>'}).join("");
+  var chips='<b>1</b><b>2</b><b>3</b><b>4</b><b>5</b>';
+  var tasks=t("tasks").map(function(x){return '<div class="vt3"><span class="tick"></span><span>'+esc(x)+'</span></div>'}).join("");
+  var pr=[["p1t","p1"],["p2t","p2"],["p3t","p3"]].map(function(k,i){return '<div data-rv style="--i:'+i+'"><b>'+esc(t(k[0]))+'</b><span>'+esc(t(k[1]))+'</span></div>'}).join("");
+  app.innerHTML=
+   '<div class="stack"><section class="hero"><div class="aurora" aria-hidden="true"><b class="a1"></b><b class="a2"></b><b class="a3"></b><b class="sp"></b></div><div class="hero-copy"><h1>'+h1+'</h1>'+
+   '<p class="lead">'+esc(t("lead"))+'</p><div class="cta"><button class="btn" id="go" type="button">'+esc(t("start"))+'</button><button class="btn ghost" id="how" type="button">'+(S.lang==="ua"?"Як це працює":"How it works")+'</button><span class="note">'+esc(t("free"))+'</span></div>'+
+   '</div>'+
+   '<div class="brain" aria-hidden="true"><svg viewBox="0 0 280 280">'+
+   '<circle class="sh f1" cx="112" cy="112" r="82" fill="var(--h-pink)"/>'+
+   '<circle class="sh f2" cx="170" cy="112" r="82" fill="var(--h-yellow)"/>'+
+   '<circle class="sh f3" cx="141" cy="168" r="82" fill="var(--h-blue)"/>'+
+   '<circle class="eye" cx="141" cy="132" r="5" fill="var(--ink)"/></svg></div>'+
+   '<div class="chips" aria-hidden="true">'+
+   '<div class="chip c1"><i>78</i><div><b>'+(S.lang==="ua"?"Самозванець":"Imposter")+'</b><span class="mini"><u style="--w:78%"></u></span></div></div>'+
+   '<div class="chip c2"><i>52</i><div><b>'+(S.lang==="ua"?"Тривожність":"Anxiety")+'</b><span class="mini"><u style="--w:52%"></u></span></div></div>'+
+   '<div class="chip c3"><i>♥</i><div><b>'+(S.lang==="ua"?"Мови кохання":"Love languages")+'</b><span>'+(S.lang==="ua"?"Дотики · Час":"Touch · Time")+'</span></div></div></div>'+
+   '<button class="cue" id="cue" type="button" aria-label="scroll"><i></i><span>'+(S.lang==="ua"?"Гортай":"Scroll")+'</span></button></section>'+
+   '<section class="mani" id="maniS"><div class="mani-in" data-k="'+(S.lang==="ua"?"Головна ідея":"The idea")+'">'+mrow(0)+'<p class="mani-p" id="mani">'+mani+'</p>'+mrow(1)+'<div class="mbar" aria-hidden="true"><i></i></div></div></section></div>'+
+   '<section class="tests" id="tests"><div class="sec-h"><h2>'+esc(t("all"))+'</h2></div><div class="grid">'+cards+'</div></section>'+
+   '<section class="scene" id="scene" data-step="0" aria-label="'+esc(t("howT"))+'"><div class="scene-in"><div><h2>'+esc(t("howT"))+'</h2><ol class="steps">'+st+'</ol><div class="rail"><i></i></div></div>'+
+   '<div class="vis" aria-hidden="true">'+
+   '<div class="v v1 vq"><span class="vcap">1 / 32</span><p>'+esc(IMP.qs[0][S.lang])+'</p><div class="vc">'+chips+'</div><span class="vk">'+esc(t("hint").split(".")[0])+'</span></div>'+
+   '<div class="v v2"><span class="vcap">'+esc(t("sample"))+'</span>'+bars+'</div>'+
+   '<div class="v v3">'+tasks+'</div></div></div></section>'+
+   '<div class="promise">'+pr+'</div>'+
+   '<section class="final"><h2 class="giant">'+esc(t("ctaT"))+'</h2><button class="btn" id="go2" type="button">'+esc(t("start"))+'</button></section>'+
+   '<div class="mq" aria-hidden="true"><div class="mq-row a"><div class="mq-t">'+mqHtml(false)+'</div></div></div>';
+  document.getElementById("go").onclick=function(){start()};
+  document.getElementById("go2").onclick=function(){start()};
+  var nextY=function(){var h=app.querySelector(".hero");return h.getBoundingClientRect().bottom+(window.pageYOffset||0)-40};
+  var goNext=function(){window.scrollTo({top:nextY(),behavior:RM?"auto":"smooth"})};
+  document.getElementById("cue").onclick=goNext;
+  app.querySelector(".brain").addEventListener("pointerdown",function(){FX.pop=1});
+  document.getElementById("how").onclick=function(){var sc=document.getElementById("scene");window.scrollTo({top:sc.getBoundingClientRect().top+(window.pageYOffset||0)-70,behavior:RM?"auto":"smooth"})};
+  app.querySelectorAll(".card").forEach(function(b){b.onclick=function(){b.dataset.test==="imposter"?start():toast(t("soonToast"))}});
+  homeFx();
+}
+
+/* ---------- quiz ---------- */
+function start(){S.view="quiz";S.i=0;S.dir=1;S.ans=[];S.email="";S.consent=false;S.err="";render();window.scrollTo(0,0)}
+function quiz(){
+  var n=IMP.qs.length,q=IMP.qs[S.i],cur=S.ans[S.i];S.lock=false;
+  var opts=IMP.scale[S.lang].map(function(l,k){
+    return '<button type="button" class="opt" style="--i:'+k+'" data-v="'+(k+1)+'" aria-pressed="'+(cur===k+1)+'"><span class="n">'+(k+1)+'</span>'+esc(l)+'</button>';
+  }).join("");
+  app.innerHTML='<div class="stage"><div class="top"><span>'+t("q")+' '+(S.i+1)+' '+t("of")+' '+n+'</span>'+
+    '<button class="link" id="bk" type="button">'+(S.i>0?t("back"):t("home"))+'</button></div>'+
+    '<div class="bar" role="progressbar" aria-valuemin="1" aria-valuemax="'+n+'" aria-valuenow="'+(S.i+1)+'"><i style="width:'+((S.i+1)/n*100)+'%"></i></div>'+
+    (S.i===15?'<p class="note" style="margin-top:12px">'+esc(t("half"))+'</p>':'')+
+    '<div class="qbox"><span class="qnum" aria-hidden="true">'+String(S.i+1).padStart(2,"0")+'</span><div class="q'+(S.dir<0?' back':'')+'"><h2>'+esc(q[S.lang])+'</h2><div class="likert">'+opts+'</div></div></div></div>';
+  document.getElementById("bk").onclick=function(){if(S.i>0){S.i--;S.dir=-1;render()}else{S.view="home";render()}};
+  app.querySelectorAll(".opt").forEach(function(b){b.onclick=function(){
+    if(S.lock)return;S.lock=true;
+    S.ans[S.i]=+b.dataset.v;
+    app.querySelectorAll(".opt").forEach(function(o){o.setAttribute("aria-pressed",String(o===b))});
+    var at=S.i;setTimeout(function(){if(S.view!=="quiz"||S.i!==at)return;S.dir=1;if(S.i+1<n){S.i++}else{S.view="gate"}render()},220);
+  }});
+}
+function gate(){
+  app.innerHTML='<div class="stage"><form class="panel" id="f" novalidate><h2>'+esc(t("gT"))+'</h2><p>'+esc(t("gP"))+'</p>'+
+   '<label class="sr" for="em">'+esc(t("em"))+'</label><input class="field" id="em" type="email" autocomplete="email" placeholder="'+esc(t("em"))+'" value="'+esc(S.email)+'">'+
+   '<label class="check" for="cs"><input id="cs" type="checkbox"'+(S.consent?' checked':'')+'><span>'+esc(t("cons"))+'</span></label>'+
+   '<div class="err" id="er" role="alert">'+esc(S.err)+'</div>'+
+   '<button class="btn" type="submit" style="width:100%">'+esc(t("show"))+'</button></form></div>';
+  var em=document.getElementById("em"),cs=document.getElementById("cs");
+  em.oninput=function(){S.email=em.value};cs.onchange=function(){S.consent=cs.checked};
+  document.getElementById("f").onsubmit=function(e){
+    e.preventDefault();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(S.email.trim())){S.err=t("eBad");document.getElementById("er").textContent=S.err;em.focus();return}
+    if(!S.consent){S.err=t("eCons");document.getElementById("er").textContent=S.err;return}
+    S.err="";S.pct=pct();S.view="result";render();window.scrollTo(0,0);
+  };
+}
+
+/* ---------- result ---------- */
+var tick=null;
+function deadline(){
+  var k="mg-offer-imposter",d=0;
+  try{d=+localStorage.getItem(k)||0}catch(e){}
+  if(!d||d<Date.now()-86400000){d=Date.now()+15*60000;try{localStorage.setItem(k,String(d))}catch(e){}}
+  return d;
+}
+function fmt(ms){var s=Math.max(0,Math.floor(ms/1000));return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function result(){
+  var p=S.pct,b=band(p),c=b[S.lang]||IMP.bands[b.id==="low"?0:b.id==="mid"?1:2][S.lang],g=IMP.guide[S.lang],pr=IMP.guide.price[S.lang];
+  var prose=c.p.map(function(x,i){return '<p>'+esc(x)+'</p>'}).join("");
+  if(c.bullets&&c.bullets.length)prose+='<ul>'+c.bullets.map(function(x){return '<li>'+x+'</li>'}).join("")+'</ul>';
+  if(c.after)prose+='<p style="margin-top:12px">'+esc(c.after)+'</p>';
+  prose+='<h3>'+esc(t("try"))+'</h3><ol>'+c.tr.map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+'</ol>';
+  var who=IMP.who[S.lang].map(function(x){return '<p>'+x+'</p>'}).join("");
+  var ds=dimScores(),order=ds.map(function(v,i){return i}).sort(function(a,b){return ds[b]-ds[a]}),lv=t("lvl");
+  var rows=order.map(function(d,k){
+    var dm=IMP.DIMS[d][S.lang],v=ds[d],L=v<35?lv[0]:v<60?lv[1]:lv[2];
+    return '<div class="dim'+(k<2?' top':'')+'"><span>'+esc(dm.n)+'</span><span class="v">'+v+'% · '+L+'</span><div class="track"><i data-w="'+v+'"></i></div></div>';
+  }).join("");
+  var tops=order.slice(0,2).filter(function(d){return ds[d]>=50});
+  var drv=tops.length?tops.map(function(d){var dm=IMP.DIMS[d][S.lang];return '<div class="driver"><h3>'+esc(dm.n)+'</h3><p>'+esc(dm.why)+'</p><p class="act">'+esc(dm.act)+'</p></div>'}).join(""):'<p class="note" style="margin-top:8px">'+esc(t("noDrv"))+'</p>';
+  var profile='<div class="panel" data-rv><h2 style="font-size:1.25rem">'+esc(t("profile"))+'</h2><p class="note" style="margin-top:6px">'+esc(t("profileNote"))+'</p><div class="dims">'+rows+'</div><h3 style="font-size:1rem;margin-top:26px">'+esc(t("drivers"))+'</h3>'+drv+'</div>';
+  if(ds[7]>=65)who='<p><b>'+esc(t("costNote"))+'</b></p>'+who;
+  var days=g.days.map(function(x,i){return '<li><b style="width:18px;min-width:0;color:var(--accent)">✓</b><span>'+esc(x)+'</span></li>'}).join("");
+  app.innerHTML='<div class="stage stack">'+
+   '<div class="panel"><div class="score"><span class="big" id="big">0%</span><small>'+esc(t("match"))+'</small></div>'+
+   '<div class="meter" aria-hidden="true"><i id="mk"></i></div><div class="scale"><span>'+esc(t("toLow"))+'</span><span>'+esc(t("toHigh"))+'</span></div>'+
+   '<h2 style="margin:26px 0 12px;font-size:1.35rem">'+esc(c.h)+'</h2><div class="prose">'+prose+'</div></div>'+
+   profile+'<div class="box" data-rv><h3>'+esc(t("who"))+'</h3><div class="prose">'+who+'</div></div>'+
+   '<div class="offer" data-rv><span class="note" style="font-weight:600;text-transform:uppercase;letter-spacing:.08em">'+esc(t("offer"))+'</span>'+
+   '<h3>'+esc(g.t)+'</h3><p>'+esc(g.d)+'</p><ul class="days">'+days+'</ul>'+
+   '<p class="note"><b>'+esc(t("bonus"))+':</b> '+g.bonus.map(esc).join("; ")+'.</p>'+
+   '<div class="price"><b id="pr"></b></div>'+
+   '<button class="btn" id="buy" type="button"></button><div class="demo" id="dm" hidden>'+esc(t("demo"))+'</div></div>'+
+   '<div class="row-btns"><button class="btn ghost" id="again" type="button">'+esc(t("again"))+'</button><button class="btn ghost" id="more" type="button">'+esc(t("moreTests"))+'</button></div>'+
+   '<p class="note">'+esc(S.lang==="ua"?"Тест не є діагностичним інструментом і не замінює консультацію фахівця.":"This test is not a diagnostic tool and does not replace professional advice.")+'</p></div>';
+  // animate score
+  var big=document.getElementById("big"),mk=document.getElementById("mk"),t0=performance.now();
+  function step(now){var k=Math.min(1,(now-t0)/1000);big.textContent=Math.round(p*(1-Math.pow(1-k,3)))+"%";if(k<1)requestAnimationFrame(step)}
+  big.textContent=p+"%";requestAnimationFrame(function(){big.textContent="0%";requestAnimationFrame(step);mk.style.left=Math.max(2,Math.min(98,p))+"%"});
+  var dmEl=app.querySelector(".dims");if(dmEl)dmEl.setAttribute("data-bars","");
+  document.getElementById("pr").textContent=pr[1];
+  document.getElementById("buy").textContent=t("buy")+" "+pr[1];
+  document.getElementById("buy").onclick=function(){var d=document.getElementById("dm");d.hidden=false;d.scrollIntoView({block:"nearest",behavior:"smooth"})};
+  document.getElementById("again").onclick=start;
+  document.getElementById("more").onclick=function(){S.view="home";render();window.scrollTo(0,0)};
+}
+
+/* ---------- FX engine ---------- */
+var RM=!!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches);
+var FINE=!!(window.matchMedia&&matchMedia("(hover:hover) and (pointer:fine)").matches);
+var LITE=!!(window.matchMedia&&matchMedia("(max-width:760px),(pointer:coarse)").matches);
+var FX={v:0,mx:-200,my:-200,cx:-200,cy:-200,io:null,home:false,mq:[],words:[],mags:[],pups:[],px:[],sc:null,mani:null,brain:null,copy:null,lastP:-1,f:0};
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function fillBars(el){el.querySelectorAll(".track i").forEach(function(i){i.style.width=i.dataset.w+"%"})}
+function reveals(){
+  var els=[].slice.call(app.querySelectorAll("[data-rv],[data-bars]"));
+  if(FX.io){FX.io.disconnect();FX.io=null}
+  if(RM||!("IntersectionObserver" in window)){els.forEach(function(e){if(e.hasAttribute("data-bars"))fillBars(e);e.classList.add("in")});return}
+  FX.io=new IntersectionObserver(function(es){es.forEach(function(en){
+    if(!en.isIntersecting)return;
+    var e=en.target;if(e.hasAttribute("data-bars"))fillBars(e);e.classList.add("in");FX.io.unobserve(e);
+  })},{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+  els.forEach(function(e){FX.io.observe(e)});
+}
+function mags(){
+  FX.mags=(FINE&&!RM)?[].slice.call(document.querySelectorAll(".btn")).map(function(el){return{el:el,x:0,y:0}}):[];
+}
+function homeFx(){
+  FX.home=true;FX.lastP=-1;
+  FX.au=FX.hero=FX.maniS=FX.mbar=null;
+  FX.copy=app.querySelector(".hero-copy");FX.brain=app.querySelector(".brain");
+  FX.mq=[].slice.call(app.querySelectorAll(".mq-row")).map(function(r,i){var t=r.firstElementChild;return{t:t,dir:i?1:-1,x:0,half:t.scrollWidth/2}});
+  FX.words=[].slice.call(app.querySelectorAll(".mw"));FX.mani=app.querySelector("#mani");
+  if(LITE&&FX.mani){
+    FX.words.forEach(function(w,i){w.style.setProperty("--i",i)});
+    if("IntersectionObserver" in window){var mio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("go");mio.disconnect()}})},{threshold:.5});mio.observe(FX.mani)}else FX.mani.classList.add("go");
+  }
+  FX.sc=app.querySelector("#scene");FX.px=[].slice.call(app.querySelectorAll("[data-px]"));
+  FX.pups=[].slice.call(app.querySelectorAll(".pup"));
+  if(FINE&&!RM)app.querySelectorAll(".card").forEach(function(c){
+    c.addEventListener("pointermove",function(e){
+      var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+      c.style.setProperty("--ry",((x-.5)*5).toFixed(2)+"deg");c.style.setProperty("--rx",((.5-y)*5).toFixed(2)+"deg");
+      c.style.setProperty("--mx",(x*100).toFixed(1)+"%");c.style.setProperty("--my",(y*100).toFixed(1)+"%");
+    });
+    c.addEventListener("pointerleave",function(){c.style.setProperty("--ry","0deg");c.style.setProperty("--rx","0deg")});
+  });
+}
+function initFx(){
+  var prog=document.getElementById("prog"),cur=document.getElementById("cur"),glow=document.getElementById("glow"),hdr=document.querySelector("header");
+  if(!RM)document.documentElement.classList.add("anim-ready");
+  if(LITE)document.documentElement.classList.add("lite");
+  
+  var HOT="a,button,.card,.opt,input,label,.brain,[role=button]",TXT="input[type=email],input[type=text],textarea",curOn=false,root=document.documentElement;
+  function curShow(){
+    if(curOn||!FINE||RM)return;
+    curOn=true;FX.cx=FX.mx;FX.cy=FX.my;
+    cur.style.translate=FX.cx+"px "+FX.cy+"px";
+    cur.classList.add("on");glow.classList.add("on");root.classList.add("has-cur");FX.gx=FX.mx;FX.gy=FX.my;
+  }
+  function curHide(){curOn=false;cur.classList.remove("on","down");glow.classList.remove("on");root.classList.remove("has-cur")}
+  function btnOrigin(e){
+    var t=e.target,b=t&&t.closest&&t.closest(".btn");
+    if(!b||(e.relatedTarget&&b.contains(e.relatedTarget)))return;
+    var r=b.getBoundingClientRect();
+    b.style.setProperty("--bx",(e.clientX-r.left).toFixed(0)+"px");
+    b.style.setProperty("--by",(e.clientY-r.top).toFixed(0)+"px");
+  }
+  document.addEventListener("pointermove",function(e){
+    if(e.pointerType==="touch")return;
+    FX.mx=e.clientX;FX.my=e.clientY;curShow();
+    var t=e.target,inTxt=!!(t&&t.closest&&t.closest(TXT));
+    var bt=t&&t.closest&&t.closest(".btn:not([disabled])");
+    glow.classList.toggle("tight",!!bt);
+    cur.classList.toggle("hot",!inTxt&&!!(t&&t.closest&&t.closest(HOT)));
+    cur.classList.toggle("txt",inTxt);
+  },{passive:true});
+
+  (function(){
+    var COL=["#7A93FF","#A78BFA","#FF8FB1","#FFB27A","#FFD84D","#5FD3A8"],
+        pk=document.getElementById("cpick"),dot=document.getElementById("cdot"),pop=document.getElementById("cpop"),c0=COL[0];
+    try{var v=localStorage.getItem("mg-cc2");if(v&&COL.indexOf(v)>-1)c0=v}catch(e){}
+    function setC(c){
+      root.style.setProperty("--cc",c);
+      pop.querySelectorAll(".sw").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.c===c))});
+      try{localStorage.setItem("mg-cc2",c)}catch(e){}
+    }
+    pop.innerHTML=COL.map(function(c){return '<button class="sw" type="button" data-c="'+c+'" style="--c:'+c+'" aria-pressed="false" aria-label="'+c+'"></button>'}).join("");
+    pop.onclick=function(e){var b=e.target.closest(".sw");if(b)setC(b.dataset.c)};
+    setC(c0);
+    function shut(){pk.classList.remove("open");dot.setAttribute("aria-expanded","false")}
+    dot.onclick=function(e){e.stopPropagation();var o=pk.classList.toggle("open");dot.setAttribute("aria-expanded",String(o))};
+    document.addEventListener("click",function(e){if(!pk.contains(e.target))shut()});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape")shut()});
+  })();
+  document.addEventListener("pointerover",btnOrigin);
+  document.addEventListener("pointerout",btnOrigin);
+  document.addEventListener("pointerdown",function(e){if(e.pointerType!=="touch")cur.classList.add("down")});
+  document.addEventListener("pointerup",function(){cur.classList.remove("down")});
+  document.addEventListener("pointercancel",function(){cur.classList.remove("down")});
+  root.addEventListener("mouseleave",curHide);
+  document.addEventListener("keydown",function(e){
+    if(e.ctrlKey||e.metaKey||e.altKey||S.view!=="quiz")return;
+    var tg=e.target&&e.target.tagName;if(tg==="INPUT"||tg==="TEXTAREA")return;
+    var k=e.key;
+    if(k.length===1&&k>="1"&&k<="5"){
+      var b=app.querySelector('.opt[data-v="'+k+'"]');
+      if(b&&!S.lock){e.preventDefault();b.classList.add("kp");b.click()}
+    }else if((k==="ArrowLeft"||k==="Backspace")&&S.i>0){
+      e.preventDefault();var bk=document.getElementById("bk");if(bk)bk.click();
+    }
+  });
+  var lastY=0;
+  function loop(){
+    requestAnimationFrame(loop);
+    if(document.hidden)return;
+    var y=window.pageYOffset||document.documentElement.scrollTop||0,vh=window.innerHeight,dy=y-lastY;lastY=y;
+    FX.v+=(dy-FX.v)*.18;FX.f++;
+    var mx=document.documentElement.scrollHeight-vh;
+    prog.style.transform="scaleX("+(mx>0?clamp(y/mx,0,1):0).toFixed(4)+")";
+    if(RM)return;
+    if(!LITE)FX.hacc=((FX.hacc||0)*(dy*(FX.hacc||0)<0?0:1))+dy;if(!LITE){if(y<140||FX.hacc<-60)hdr.classList.remove("hide");else if(FX.hacc>120)hdr.classList.add("hide")}
+    if(FINE){
+      FX.cx+=(FX.mx-FX.cx)*.22;FX.cy+=(FX.my-FX.cy)*.22;cur.style.translate=FX.cx.toFixed(1)+"px "+FX.cy.toFixed(1)+"px";FX.gx+=(FX.mx-FX.gx)*.09;FX.gy+=(FX.my-FX.gy)*.09;glow.style.translate=FX.gx.toFixed(1)+"px "+FX.gy.toFixed(1)+"px";
+      FX.mags.forEach(function(m){
+        var r=m.el.getBoundingClientRect(),ox=r.left+r.width/2,oy=r.top+r.height/2,dx=FX.mx-ox,dy2=FX.my-oy,d=Math.sqrt(dx*dx+dy2*dy2),tx=0,ty=0;
+        if(d<95&&!m.el.disabled){tx=dx*.2;ty=dy2*.2}
+        m.x+=(tx-m.x)*.18;m.y+=(ty-m.y)*.18;
+        if(Math.abs(m.x)>.05||Math.abs(m.y)>.05||m.el.style.translate)m.el.style.translate=m.x.toFixed(1)+"px "+m.y.toFixed(1)+"px";
+      });
+    }
+    (FX.hd||(FX.hd=document.querySelector("header"))).classList.toggle("scrolled",y>24);
+    if(!FX.home)return;
+    if(!LITE&&y<vh*1.2){
+      var hp=Math.min(1,y/(vh*.75));
+      if(!FX.ch)FX.ch=[app.querySelector(".chips")];FX.ch.forEach(function(c){if(c){c.style.opacity=(1-hp*1.2).toFixed(3);c.style.translate="0 "+(y*.1).toFixed(1)+"px"}});
+      if(FX.copy){FX.copy.style.translate="0 "+(y*.18).toFixed(1)+"px";FX.copy.style.scale=(1-hp*.1).toFixed(3);FX.copy.style.opacity=(1-hp*1.05).toFixed(3)}
+      if(!RM&&FINE){
+        var hs=FX.hero||(FX.hero=app.querySelector(".hero")),au=FX.au||(FX.au=app.querySelector(".aurora"));
+        if(hs&&au){
+          var hr=hs.getBoundingClientRect(),inH=curOn&&FX.mx>0&&FX.my>hr.top-100&&FX.my<hr.bottom;
+          FX.ax=(FX.ax||0)+(((FX.mx/window.innerWidth)-.5)*2-(FX.ax||0))*.06;FX.ay=(FX.ay||0)+(((FX.my/vh)-.5)*2-(FX.ay||0))*.06;
+          FX.sx=(FX.sx||FX.mx)+(FX.mx-(FX.sx||FX.mx))*.12;FX.sy=(FX.sy||FX.my)+(FX.my-(FX.sy||FX.my))*.12;FX.so=(FX.so||0)+((inH?1:0)-(FX.so||0))*.08;
+          var ar=au.getBoundingClientRect();
+          hs.style.setProperty("--ax",FX.ax.toFixed(3));hs.style.setProperty("--ay",FX.ay.toFixed(3));au.style.setProperty("--ax",FX.ax.toFixed(3));au.style.setProperty("--ay",FX.ay.toFixed(3));au.style.setProperty("--so",FX.so.toFixed(3));
+          var sp=au.querySelector(".sp");sp.style.left=(FX.sx-ar.left)+"px";sp.style.top=(FX.sy-ar.top)+"px";
+          if(!FX.ws)FX.ws=[].slice.call(hs.querySelectorAll("h1 .w>span")).map(function(el){return{el:el,l:0,r:0}});
+          FX.ws.forEach(function(w){
+            var wr=w.el.getBoundingClientRect(),wx=wr.left+wr.width/2,wy=wr.top+wr.height/2,ddx=FX.mx-wx,ddy=FX.my-wy,d=Math.sqrt(ddx*ddx+ddy*ddy),k=inH&&d<240?(1-d/240):0;
+            w.l+=(k-w.l)*.14;w.r+=((k?Math.max(-1,Math.min(1,ddx/200)):0)-w.r)*.14;
+            if(w.l>.002||w.el.style.translate){w.el.style.translate="0 "+(-w.l*16).toFixed(1)+"px";w.el.style.scale=(1+w.l*.07).toFixed(3);w.el.style.rotate=(w.r*-3*w.l).toFixed(2)+"deg"}
+          });
+        }
+      }
+      if(FX.brain&&!RM){
+        var br=FX.brain.getBoundingClientRect(),bx=br.left+br.width/2,by=br.top+br.height/2,bw=Math.max(br.width,1);
+        var tx2=0,ty2=0,th=0;
+        if(FINE&&curOn){var ddx=(FX.mx-bx)/bw,ddy=(FX.my-by)/bw;tx2=Math.max(-1,Math.min(1,ddx*1.6));ty2=Math.max(-1,Math.min(1,ddy*1.6));th=Math.sqrt(ddx*ddx+ddy*ddy)<.62?1:0}
+        FX.bm=(FX.bm||0)+(tx2-(FX.bm||0))*.12;FX.bn=(FX.bn||0)+(ty2-(FX.bn||0))*.12;FX.bh=(FX.bh||0)+(th-(FX.bh||0))*.1;
+        FX.pop=(FX.pop||0)*.92;
+        FX.brain.style.setProperty("--mx",FX.bm.toFixed(3));FX.brain.style.setProperty("--my",FX.bn.toFixed(3));FX.brain.style.setProperty("--hv",(FX.bh+FX.pop*1.1).toFixed(3));
+      }
+      if(FX.brain){FX.brain.style.translate="0 "+(y*-.12).toFixed(1)+"px";FX.brain.style.scale=(1+hp*.35).toFixed(3);FX.brain.style.rotate=(hp*70).toFixed(1)+"deg";FX.brain.style.setProperty("--sp",hp.toFixed(3));FX.brain.style.opacity=(1-Math.max(0,hp-.55)*2).toFixed(3)}
+    }
+    if(!LITE&&FX.f%90===1)FX.mq.forEach(function(r){r.half=r.t.scrollWidth/2});
+    var sgn=FX.v<-.5?-1:1,spd=.5+Math.abs(FX.v)*.15,sk=0;
+    if(!LITE)FX.mq.forEach(function(r){
+      if(!r.half)return;
+      r.x+=r.dir*sgn*spd;if(r.x<=-r.half)r.x+=r.half;if(r.x>0)r.x-=r.half;
+      r.t.style.transform="translate3d("+r.x.toFixed(1)+"px,0,0) skewX("+sk.toFixed(2)+"deg)";
+    });
+    if(!LITE&&FX.mani&&FX.words.length){
+      var ms=FX.maniS||(FX.maniS=app.querySelector("#maniS")),r1=ms.getBoundingClientRect();
+      if(r1.bottom>-50&&r1.top<vh+50){
+        var p=clamp(-r1.top/Math.max(1,r1.height-vh),0,1),pw=clamp(p/.42,0,1);
+        if(Math.abs(p-FX.lastP)>.001){FX.lastP=p;var n=FX.words.length;FX.words.forEach(function(w,i){w.style.setProperty("--t",clamp(pw*(n+3)-i,0,1).toFixed(2))});FX.mani.style.setProperty("--ms",(.9+.1*clamp(p*3,0,1)).toFixed(3));FX.mbar=FX.mbar||ms.querySelector(".mbar i");FX.mbar.style.setProperty("--mp",p.toFixed(3));ms.querySelector(".mani-in").style.setProperty("--mp",p.toFixed(3))}
+        if(!FX.mr)FX.mr=[].slice.call(ms.querySelectorAll(".mtrack"));
+        FX.mr.forEach(function(tr,ix){var pan=Math.max(0,tr.scrollWidth-window.innerWidth),q=ix?1-p:p;tr.style.transform="translate3d("+(-pan*q).toFixed(1)+"px,0,0)"})
+      }
+    }
+    var sc=FX.sc;
+    if(sc){
+      var r2=sc.getBoundingClientRect(),tot=r2.height-vh;
+      if(tot>0&&r2.bottom>-60&&r2.top<vh+60){
+        var q=clamp(-r2.top/tot,0,1),st=Math.min(2,Math.floor(q*3)),lp=q>=1?1:q*3-st;
+        if(sc.dataset.step!==String(st))sc.dataset.step=st;
+        sc.style.setProperty("--p",q.toFixed(3));
+        sc.style.setProperty("--k",(st<1?0:st===1?lp:1).toFixed(3));
+        var on=st===0?Math.min(4,Math.floor(lp*5)):4;
+        sc.querySelectorAll(".vc b").forEach(function(b,i){b.classList.toggle("on",i===on)});
+        sc.querySelectorAll(".vt3").forEach(function(row,i){row.classList.toggle("done",st===2&&lp>(i+.2)/3.3)});
+      }
+    }
+    FX.px.forEach(function(el){
+      var rr=el.parentElement.getBoundingClientRect();
+      if(rr.bottom>0&&rr.top<vh){var pg=clamp((vh-rr.top)/(vh+rr.height),0,1);el.style.translate=((pg-.5)*-80).toFixed(1)+"px 0"}
+    });
+  }
+  requestAnimationFrame(loop);
+}
+
+function render(){
+  chrome();
+  FX.home=false;
+  if(S.view==="home")home();else if(S.view==="quiz")quiz();else if(S.view==="gate")gate();else result();
+  reveals();mags();
+}
+
+document.getElementById("home").onclick=function(){S.view="home";render();window.scrollTo(0,0)};
+document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function(){
+  S.lang=b.dataset.l;try{localStorage.setItem("mg-lang",S.lang)}catch(e){}
+  if(S.view==="result")S.pct=pct();
+  render();
+}});
+initFx();
+render();
+})();
+</script>
+</body>
+</html>
