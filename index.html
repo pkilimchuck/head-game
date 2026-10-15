@@ -484,9 +484,19 @@ html:not(.anim-ready) .tests{margin-top:40px;min-height:0}
 .sw{width:28px;height:28px;border-radius:50%;border:2px solid transparent;padding:0;background:radial-gradient(circle at 34% 30%,color-mix(in srgb,var(--c) 55%,#fff),var(--c));box-shadow:inset 0 1px 3px rgba(255,255,255,.55);transition:transform .2s}
 .sw:hover{transform:scale(1.15)}
 .sw[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--bg) inset}
+html:not(.lite) .mt{translate:calc((var(--ti,0) - (var(--tn,12) - 1)/2) * var(--sp,0) * 40px) calc(var(--rs,1) * var(--sp,0) * -34px)}
+.flinks{display:flex;gap:6px 18px;flex-wrap:wrap;margin-top:10px}
+.flinks a,.check a,.doc a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.doc h2{font-size:1.5rem;margin-bottom:4px}
+.doc h3{font-size:1.02rem;margin:20px 0 6px}
+.doc p,.doc li{color:var(--muted);font-size:.95rem;line-height:1.6}
+.doc ul{padding-left:20px;margin:6px 0}
+.doc .upd{font-size:.8rem;margin-bottom:6px}
+.dlg{position:fixed;inset:0;z-index:80;background:rgba(14,16,24,.5);display:grid;place-items:center;padding:16px}
+.dbox{position:relative;background:var(--bg);border-radius:26px;max-width:720px;width:100%;max-height:86svh;overflow:auto;padding:clamp(22px,4vw,36px);animation:rise .3s ease-out both;overscroll-behavior:contain}
+.dx{position:sticky;top:0;float:right;margin:-8px -8px 0 8px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:1.4rem;line-height:1;cursor:pointer;color:var(--ink)}
 </style>
-</head>
-<body>
+
 <div class="wrap">
   <header>
     <button class="logo" id="home" type="button"><i></i><span id="brand"></span></button>
@@ -513,20 +523,20 @@ var UI={
 ua:{brand:"Головна гра",
  h1a:"З тобою все гаразд.",h1b:"Це просто мозок",h1c:"грає в гру.",
  lead:"Короткі тести без діагнозів і душності. Дізнаєшся, що відбувається в голові, і як із цим жити.",
- start:"Пройти перший тест",free:"Тести безкоштовні. Результат прийде на email.",
+ start:"Пройти перший тест",free:"Тести безкоштовні. Результат одразу на екрані.",
  all:"Усі тести",soon:"Скоро",live:"Відкрити",min:"хв",
  p1t:"Без діагнозів",p1:"Це самопізнання, а не медичний висновок. Ми чесно кажемо, коли варто піти до фахівця.",
  p2t:"З гумором",p2:"Жодних лякалок. Розбір написаний так, ніби його читає друг, що тебе любить.",
  p3t:"З діями",p3:"Після кожного тесту є конкретні кроки на сьогодні, а за бажанням ще й PDF-гайд.",
- foot:"Тести є інструментом самопізнання і не замінюють консультацію психолога чи лікаря. Це демо-версія сайту.",
+ foot:"Тести є інструментом самопізнання і не замінюють консультацію психолога чи лікаря.",
  q:"Питання",of:"з",back:"Назад",home:"На головну",
  gT:"Твій результат готовий!",gP:"Введи email, щоб отримати детальний розбір, відсоток збігу та рекомендації.",
- em:"Твій email",cons:"Погоджуюсь з політикою конфіденційності",show:"Показати результат",
+ em:"Твій email",cons:"Погоджуюсь з {p} і хочу отримати результат та поради на email. Відписатись можна будь-коли.",consP:"політикою конфіденційності",age:"Для тих, кому 16+. Відповіді на питання лишаються в твоєму браузері.",noRef:"Цифровий товар: після оплати кошти не повертаються ({r}).",fP:"Конфіденційність",fT:"Умови",fR:"Повернення",cls:"Закрити",thT:"Дякуємо! Гайд уже в дорозі",thP:"Ми надіслали PDF на email, який ти вказав(-ла) при оплаті. Лист може йти до 10 хвилин і іноді потрапляє до «Спаму».",thN:"Немає листа? Напиши на {c} з email покупки, і ми надішлемо файл вручну.",thB:"Пройти інший тест",show:"Показати результат",
  eBad:"Перевір email: схоже, у ньому помилка.",eCons:"Постав галочку згоди, щоб продовжити.",
  match:"Збіг",toLow:"майже не про тебе",toHigh:"дуже про тебе",
  who:"До кого звертатись",offer:"Гайд для тебе",buy:"Купити гайд за",
  left:"Персональна знижка −30% ще",ended:"Знижка закінчилась",
- demo:"Це демо: оплата підключається через Stripe або WayForPay під час деплою. Зараз гроші не списуються.",
+ demo:"Оплата ще підключається. Продаж гайда відкриється найближчим часом.",
  again:"Пройти ще раз",moreTests:"Інші тести",bonus:"Бонуси",try:"Що зробити сьогодні",
  soonToast:"Цей тест ще пишеться. Спробуй «Синдром самозванця».",day:"День",qs:"питання",
  hint:"Підказка: тисни 1-5 на клавіатурі, щоб обрати відповідь. Стрілка ← повертає назад.",scroll:"Скроль",
@@ -543,20 +553,20 @@ ua:{brand:"Головна гра",
 en:{brand:"Head Game",
  h1a:"You're fine.",h1b:"Your brain is just",h1c:"playing a game.",
  lead:"Short quizzes with no diagnoses and no lectures. See what's going on in your head and how to live with it.",
- start:"Take the first quiz",free:"Quizzes are free. Your result arrives by email.",
+ start:"Take the first quiz",free:"Quizzes are free. Your result appears right on screen.",
  all:"All quizzes",soon:"Soon",live:"Open",min:"min",
  p1t:"No diagnoses",p1:"This is self-discovery, not a medical opinion. We say plainly when it's time to see a professional.",
  p2t:"With humor",p2:"No scare tactics. The breakdown reads like a friend who likes you wrote it.",
  p3t:"With action",p3:"Every quiz ends with concrete steps for today and, if you want, a PDF guide.",
- foot:"Quizzes are a self-discovery tool and do not replace a psychologist or doctor. This is a demo version of the site.",
+ foot:"Quizzes are a self-discovery tool and do not replace a psychologist or doctor.",
  q:"Question",of:"of",back:"Back",home:"Home",
  gT:"Your result is ready!",gP:"Enter your email to get the detailed breakdown, your match percentage and recommendations.",
- em:"Your email",cons:"I agree to the privacy policy",show:"Show my result",
+ em:"Your email",cons:"I agree to the {p} and want to get my result and tips by email. You can unsubscribe any time.",consP:"privacy policy",age:"For ages 16+. Your answers stay in your browser.",noRef:"Digital product: no refunds after payment ({r}).",fP:"Privacy",fT:"Terms",fR:"Refunds",cls:"Close",thT:"Thank you! Your guide is on its way",thP:"We sent the PDF to the email you used at checkout. It can take up to 10 minutes and sometimes lands in Spam.",thN:"No email? Write to {c} from your purchase email and we will send the file by hand.",thB:"Take another quiz",show:"Show my result",
  eBad:"Check your email: it looks like it has a typo.",eCons:"Tick the consent box to continue.",
  match:"Match",toLow:"hardly you",toHigh:"very much you",
  who:"Who to turn to",offer:"A guide for you",buy:"Get the guide for",
  left:"Your personal −30% discount ends in",ended:"The discount has ended",
- demo:"This is a demo: payment connects through Stripe or WayForPay at deploy time. Nothing is charged now.",
+ demo:"Checkout is still being connected. The guide will be on sale very soon.",
  again:"Take it again",moreTests:"More quizzes",bonus:"Bonuses",try:"What to do today",
  soonToast:"This quiz is still being written. Try “Imposter Syndrome”.",day:"Day",qs:"questions",
  hint:"Tip: press 1-5 on your keyboard to pick an answer. The ← key goes back.",scroll:"Scroll",
@@ -906,9 +916,90 @@ var IMP={
 IMP.qs=[];
 for(var k=0;k<4;k++)IMP.DIMS.forEach(function(dm,d){var x=dm.items[k];IMP.qs.push({d:d,r:x.r,ua:x.ua,en:x.en})});
 
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 var S={lang:"ua",view:"home",i:0,dir:1,ans:[],email:"",consent:false,err:"",pct:0};
 try{var sv=localStorage.getItem("mg-lang");if(sv==="en"||sv==="ua")S.lang=sv}catch(e){}
 var app=document.getElementById("app");
+
+/* ---------- CONFIG: fill these in before going live ---------- */
+var CFG={
+ /* MailerLite embedded form POST URL, looks like https://assets.mailerlite.com/jsonp/ACCOUNT/forms/FORM/subscribe */
+ mailer:"",
+ /* Lemon Squeezy buy links, one per guide */
+ checkout:{imposter:""},
+ /* optional: legal name shown in Privacy / Terms; empty = the site brand name is shown. contact = your separate support email */
+ owner:"",contact:""
+};
+var DOCDATE="15.10.2026";
+var DOCS={
+privacy:{
+ua:{t:"Політика конфіденційності",h:`<p class="upd">Оновлено: {d}</p>
+<h3>Хто відповідає за дані</h3><p>{owner}, Швейцарія. Контакт: {contact}.</p>
+<h3>Які дані ми збираємо</h3><ul><li>Email, який ти вводиш, щоб побачити розбір результату.</li><li>Назву тесту, який ти пройшов(-ла), і мову сайту.</li><li>Знеособлену статистику відвідувань.</li></ul><p>Твої відповіді на питання тесту обчислюються в твоєму браузері. Ми не надсилаємо їх на сервер і не зберігаємо.</p>
+<h3>Навіщо</h3><p>Щоб надіслати тобі результат і поради, а також іноді запропонувати гайд за темою тесту. Підстава: твоя згода, яку можна відкликати будь-коли.</p>
+<h3>Хто ще обробляє дані</h3><ul><li>MailerLite: розсилка листів.</li><li>Lemon Squeezy: оплата гайдів. Вони виступають продавцем і обробляють платіжні дані, ми не бачимо номер твоєї картки.</li><li>Хостинг сайту.</li></ul><p>Ці сервіси можуть зберігати дані за межами Швейцарії та ЄС із відповідними гарантіями.</p>
+<h3>Скільки зберігаємо</h3><p>Email зберігається, доки ти не відпишешся. Дані про платежі зберігаються стільки, скільки вимагає закон.</p>
+<h3>Твої права</h3><p>Ти можеш попросити доступ до даних, їх виправлення чи видалення, а також відписатись одним кліком у будь-якому листі. Пиши на {contact}. Ти також можеш поскаржитись у орган із захисту даних своєї країни.</p>
+<h3>Вік</h3><p>Сайт призначений для людей від 16 років.</p>`},
+en:{t:"Privacy policy",h:`<p class="upd">Updated: {d}</p>
+<h3>Who is responsible for your data</h3><p>{owner}, Switzerland. Contact: {contact}.</p>
+<h3>What we collect</h3><ul><li>The email you enter to see your detailed result.</li><li>The name of the quiz you took and the site language.</li><li>Anonymous visit statistics.</li></ul><p>Your answers to the quiz questions are calculated in your browser. We do not send them to a server and we do not store them.</p>
+<h3>Why</h3><p>To send you your result and tips, and now and then to offer a guide on the quiz topic. Legal basis: your consent, which you can withdraw at any time.</p>
+<h3>Who else processes data</h3><ul><li>MailerLite: sending emails.</li><li>Lemon Squeezy: payment for guides. They act as the seller and handle payment data, so we never see your card number.</li><li>Website hosting.</li></ul><p>These services may store data outside Switzerland and the EU with appropriate safeguards.</p>
+<h3>How long we keep it</h3><p>Your email is kept until you unsubscribe. Payment records are kept as long as the law requires.</p>
+<h3>Your rights</h3><p>You can ask for access to your data, correction or deletion, and unsubscribe in one click from any email. Write to {contact}. You may also complain to the data protection authority in your country.</p>
+<h3>Age</h3><p>This site is for people aged 16 and over.</p>`}},
+terms:{
+ua:{t:"Умови використання",h:`<p class="upd">Оновлено: {d}</p>
+<h3>Що це за сайт</h3><p>«Головна гра» пропонує безкоштовні тести для самопізнання та платні PDF-гайди. Тести не є медичним чи психологічним діагнозом і не замінюють консультацію спеціаліста. Якщо тобі важко, звернись до психолога чи лікаря.</p>
+<h3>Гайди</h3><p>Гайд це готовий PDF-файл, він не персоналізований. Після оплати файл надсилається на email, вказаний при купівлі. Ціна показана на сторінці купівлі, податки (ПДВ) враховує платіжна система.</p>
+<h3>Оплата</h3><p>Оплату обробляє Lemon Squeezy як продавець за записом (merchant of record). Договір купівлі укладається з ними, чек і платіжні умови надсилають вони.</p>
+<h3>Ліцензія</h3><p>Ти отримуєш право використовувати гайд для себе. Не передавай, не продавай і не публікуй файл.</p>
+<h3>Відповідальність</h3><p>Матеріали надаються «як є». Ми не гарантуємо конкретного результату і не відповідаємо за рішення, які ти ухвалюєш на їх основі, у межах, дозволених законом.</p>
+<h3>Повернення коштів</h3><p>Цифрові гайди не повертаються. Деталі на сторінці «Повернення».</p>
+<h3>Зміни та право</h3><p>Умови можуть змінюватись, актуальна версія завжди на цій сторінці. Застосовується право Швейцарії, якщо обов'язкові норми захисту споживачів твоєї країни не передбачають іншого.</p>
+<h3>Контакт</h3><p>{owner}, {contact}</p>`},
+en:{t:"Terms of use",h:`<p class="upd">Updated: {d}</p>
+<h3>What this site is</h3><p>Head Game offers free self-discovery quizzes and paid PDF guides. The quizzes are not a medical or psychological diagnosis and do not replace professional advice. If you are struggling, please talk to a psychologist or a doctor.</p>
+<h3>Guides</h3><p>A guide is a ready-made PDF file and is not personalised. After payment the file is sent to the email you gave at checkout. The price is shown at checkout and the payment provider handles taxes (VAT).</p>
+<h3>Payment</h3><p>Payments are processed by Lemon Squeezy as the merchant of record. Your purchase contract is with them, and they send the receipt and payment terms.</p>
+<h3>Licence</h3><p>You may use the guide for yourself. Please do not share, resell or publish the file.</p>
+<h3>Liability</h3><p>The materials are provided "as is". We do not promise any specific result and are not responsible for decisions you make based on them, to the extent permitted by law.</p>
+<h3>Refunds</h3><p>Digital guides are not refundable. Details on the "Refunds" page.</p>
+<h3>Changes and law</h3><p>These terms may change; the current version is always on this page. Swiss law applies, unless mandatory consumer protection rules of your country say otherwise.</p>
+<h3>Contact</h3><p>{owner}, {contact}</p>`}},
+refund:{
+ua:{t:"Повернення коштів",h:`<p class="upd">Оновлено: {d}</p>
+<h3>Гроші за гайд не повертаються</h3><p>Гайд це цифровий PDF-файл, який ти отримуєш одразу після оплати. Тому після купівлі кошти не повертаються. Перед оплатою можна переглянути опис і зміст гайда на сторінці результату.</p>
+<h3>Коли ми все одно допоможемо</h3><ul><li>Тебе списали двічі за один гайд.</li><li>Файл не прийшов на пошту або не відкривається.</li></ul><p>Напиши на {contact} з email покупки, і ми надішлемо файл ще раз або виправимо платіж.</p>
+<h3>Закон</h3><p>Ця політика не обмежує прав, які тобі гарантує обов'язкове законодавство про захист споживачів твоєї країни.</p>`},
+en:{t:"Refund policy",h:`<p class="upd">Updated: {d}</p>
+<h3>Guides are not refundable</h3><p>A guide is a digital PDF file that you receive right after payment, so purchases are not refunded. Before you pay, you can read the description and contents of the guide on the result page.</p>
+<h3>When we will still help</h3><ul><li>You were charged twice for the same guide.</li><li>The file did not arrive or will not open.</li></ul><p>Write to {contact} from your purchase email and we will resend the file or fix the payment.</p>
+<h3>Law</h3><p>This policy does not limit rights that mandatory consumer protection law in your country gives you.</p>`}}
+};
+function mailLink(){var c=CFG.contact||"[email]";return CFG.contact?'<a href="mailto:'+esc(c)+'">'+esc(c)+'</a>':esc(c)}
+function docHTML(k){var d=DOCS[k][S.lang];return '<h2>'+esc(d.t)+'</h2>'+d.h.replace(/\{d\}/g,DOCDATE).replace(/\{owner\}/g,esc(CFG.owner||t("brand"))).replace(/\{contact\}/g,mailLink())}
+function clearHash(){if(location.hash){try{history.pushState(null,"",location.pathname+location.search)}catch(e){location.hash=""}}}
+function closeDoc(){var d=document.getElementById("dlg");if(d){d.parentNode.removeChild(d);document.documentElement.style.overflow=""}}
+function openDoc(k){
+  closeDoc();var d=document.createElement("div");d.className="dlg";d.id="dlg";d.setAttribute("role","dialog");d.setAttribute("aria-modal","true");
+  d.innerHTML='<div class="dbox"><button type="button" class="dx" aria-label="'+esc(t("cls"))+'">×</button><div class="doc">'+docHTML(k)+'</div></div>';
+  document.body.appendChild(d);document.documentElement.style.overflow="hidden";
+  d.onclick=function(e){if(e.target===d)closeDoc()};var x=d.querySelector(".dx");x.onclick=closeDoc;x.focus();
+}
+document.addEventListener("click",function(e){var a=e.target.closest?e.target.closest("[data-doc]"):null;if(a){e.preventDefault();openDoc(a.dataset.doc)}});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeDoc()});
+function subscribe(){
+  if(!CFG.mailer)return;
+  try{var fd=new FormData();fd.append("fields[email]",S.email.trim());fd.append("fields[test]","imposter");fd.append("fields[lang]",S.lang);fd.append("ml-submit","1");fd.append("anticsrf","true");
+    fetch(CFG.mailer,{method:"POST",body:fd,mode:"no-cors"}).catch(function(){})}catch(e){}
+}
+function checkoutUrl(){
+  var u=CFG.checkout.imposter;if(!u)return"";
+  return u+(u.indexOf("?")>-1?"&":"?")+"checkout[email]="+encodeURIComponent(S.email.trim())+"&checkout[custom][test]=imposter&checkout[custom][lang]="+S.lang;
+}
+
 
 function t(k){return UI[S.lang][k]}
 function dimScores(){
@@ -929,7 +1020,7 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;
 function chrome(){
   document.documentElement.lang=S.lang==="ua"?"uk":"en";
   document.getElementById("brand").textContent=t("brand");
-  document.getElementById("foot").textContent=t("foot");
+  document.getElementById("foot").style.display=S.view==="home"?"":"none";document.getElementById("foot").innerHTML="<p>"+esc(t("foot"))+'</p><nav class="flinks"><a href="#/privacy" data-doc="privacy">'+esc(t("fP"))+'</a><a href="#/terms" data-doc="terms">'+esc(t("fT"))+'</a><a href="#/refund" data-doc="refund">'+esc(t("fR"))+"</a></nav>";
   document.title=t("brand");
   document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.l===S.lang))});
 }
@@ -1034,7 +1125,7 @@ function quiz(){
 function gate(){
   app.innerHTML='<div class="stage"><form class="panel" id="f" novalidate><h2>'+esc(t("gT"))+'</h2><p>'+esc(t("gP"))+'</p>'+
    '<label class="sr" for="em">'+esc(t("em"))+'</label><input class="field" id="em" type="email" autocomplete="email" placeholder="'+esc(t("em"))+'" value="'+esc(S.email)+'">'+
-   '<label class="check" for="cs"><input id="cs" type="checkbox"'+(S.consent?' checked':'')+'><span>'+esc(t("cons"))+'</span></label>'+
+   '<label class="check" for="cs"><input id="cs" type="checkbox"'+(S.consent?' checked':'')+'><span>'+esc(t("cons")).replace("{p}",'<a href="#/privacy" data-doc="privacy">'+esc(t("consP"))+'</a>')+'</span></label><p class="note" style="margin:-6px 0 14px">'+esc(t("age"))+'</p>'+
    '<div class="err" id="er" role="alert">'+esc(S.err)+'</div>'+
    '<button class="btn" type="submit" style="width:100%">'+esc(t("show"))+'</button></form></div>';
   var em=document.getElementById("em"),cs=document.getElementById("cs");
@@ -1043,7 +1134,7 @@ function gate(){
     e.preventDefault();
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(S.email.trim())){S.err=t("eBad");document.getElementById("er").textContent=S.err;em.focus();return}
     if(!S.consent){S.err=t("eCons");document.getElementById("er").textContent=S.err;return}
-    S.err="";S.pct=pct();S.view="result";render();window.scrollTo(0,0);
+    S.err="";subscribe();S.pct=pct();S.view="result";render();window.scrollTo(0,0);
   };
 }
 
@@ -1092,9 +1183,25 @@ function result(){
   var dmEl=app.querySelector(".dims");if(dmEl)dmEl.setAttribute("data-bars","");
   document.getElementById("pr").textContent=pr[1];
   document.getElementById("buy").textContent=t("buy")+" "+pr[1];
-  document.getElementById("buy").onclick=function(){var d=document.getElementById("dm");d.hidden=false;d.scrollIntoView({block:"nearest",behavior:"smooth"})};
+  document.getElementById("buy").onclick=function(){var u=checkoutUrl();if(u){window.open(u,"_blank","noopener")||(location.href=u);return}var d=document.getElementById("dm");d.hidden=false;d.scrollIntoView({block:"nearest",behavior:"smooth"})};
   document.getElementById("again").onclick=start;
   document.getElementById("more").onclick=function(){S.view="home";render();window.scrollTo(0,0)};
+}
+
+/* ---------- thanks and doc pages ---------- */
+function thanks(){
+  app.innerHTML='<div class="stage"><div class="panel"><h2>'+esc(t("thT"))+'</h2><p>'+esc(t("thP"))+'</p><p class="note" style="margin-top:12px">'+esc(t("thN")).replace("{c}",esc(CFG.contact||"[email]"))+'</p><div class="row-btns" style="margin-top:20px"><button class="btn" id="thb" type="button">'+esc(t("thB"))+'</button></div></div></div>';
+  document.getElementById("thb").onclick=function(){clearHash();S.view="home";render();window.scrollTo(0,0)};
+}
+function docPage(){
+  app.innerHTML='<div class="stage"><div class="panel doc">'+docHTML(S.doc)+'<div class="row-btns" style="margin-top:22px"><button class="btn ghost" id="dbk" type="button">'+esc(t("home"))+'</button></div></div></div>';
+  document.getElementById("dbk").onclick=function(){clearHash();S.view="home";render();window.scrollTo(0,0)};
+}
+function route(){
+  var h=(location.hash||"").replace(/^#\/?/,"");
+  if(h==="thanks")S.view="thanks";
+  else if(DOCS[h]){S.view="doc";S.doc=h}
+  else if(S.view==="thanks"||S.view==="doc")S.view="home";
 }
 
 /* ---------- FX engine ---------- */
@@ -1122,7 +1229,7 @@ function homeFx(){
   FX.au=FX.hero=FX.maniS=FX.mbar=null;
   FX.copy=app.querySelector(".hero-copy");FX.brain=app.querySelector(".brain");
   FX.mq=[].slice.call(app.querySelectorAll(".mq-row")).map(function(r,i){var t=r.firstElementChild;return{t:t,dir:i?1:-1,x:0,half:t.scrollWidth/2}});
-  FX.words=[].slice.call(app.querySelectorAll(".mw"));FX.mani=app.querySelector("#mani");
+  FX.words=[].slice.call(app.querySelectorAll(".mw"));FX.mani=app.querySelector("#mani");[].forEach.call(app.querySelectorAll(".mtrack"),function(tr){tr.style.setProperty("--tn",tr.children.length);[].forEach.call(tr.children,function(t,i){t.style.setProperty("--ti",i)})});
   if(LITE&&FX.mani){
     FX.words.forEach(function(w,i){w.style.setProperty("--i",i)});
     if("IntersectionObserver" in window){var mio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("go");mio.disconnect()}})},{threshold:.5});mio.observe(FX.mani)}else FX.mani.classList.add("go");
@@ -1265,9 +1372,9 @@ function initFx(){
       var ms=FX.maniS||(FX.maniS=app.querySelector("#maniS")),r1=ms.getBoundingClientRect();
       if(r1.bottom>-50&&r1.top<vh+50){
         var p=clamp(-r1.top/Math.max(1,r1.height-vh),0,1),pw=clamp(p/.42,0,1);
-        if(Math.abs(p-FX.lastP)>.001){FX.lastP=p;var n=FX.words.length;FX.words.forEach(function(w,i){w.style.setProperty("--t",clamp(pw*(n+3)-i,0,1).toFixed(2))});FX.mani.style.setProperty("--ms",(.9+.1*clamp(p*3,0,1)).toFixed(3));FX.mbar=FX.mbar||ms.querySelector(".mbar i");FX.mbar.style.setProperty("--mp",p.toFixed(3));ms.querySelector(".mani-in").style.setProperty("--mp",p.toFixed(3))}
+        if(Math.abs(p-FX.lastP)>.001){FX.lastP=p;var n=FX.words.length;FX.words.forEach(function(w,i){w.style.setProperty("--t",clamp(pw*(n+3)-i,0,1).toFixed(2))});FX.mani.style.setProperty("--ms",(.9+.1*clamp(p*3,0,1)).toFixed(3));FX.mbar=FX.mbar||ms.querySelector(".mbar i");FX.mbar.style.setProperty("--mp",p.toFixed(3));ms.querySelector(".mani-in").style.setProperty("--mp",p.toFixed(3));ms.querySelector(".mani-in").style.setProperty("--sp",clamp(p/.58,0,1).toFixed(3))}
         if(!FX.mr)FX.mr=[].slice.call(ms.querySelectorAll(".mtrack"));
-        FX.mr.forEach(function(tr,ix){var pan=Math.max(0,tr.scrollWidth-window.innerWidth),q=ix?1-p:p;tr.style.transform="translate3d("+(-pan*q).toFixed(1)+"px,0,0)"})
+        FX.mr.forEach(function(tr,ix){var pan=Math.max(0,tr.scrollWidth-window.innerWidth),pp=clamp(p/.58,0,1),q=ix?1-pp:pp;tr.style.transform="translate3d("+(-pan*q).toFixed(1)+"px,0,0)"})
       }
     }
     var sc=FX.sc;
@@ -1294,19 +1401,19 @@ function initFx(){
 function render(){
   chrome();
   FX.home=false;
-  if(S.view==="home")home();else if(S.view==="quiz")quiz();else if(S.view==="gate")gate();else result();
+  closeDoc();if(S.view==="home")home();else if(S.view==="quiz")quiz();else if(S.view==="gate")gate();else if(S.view==="thanks")thanks();else if(S.view==="doc")docPage();else result();
   reveals();mags();
 }
 
-document.getElementById("home").onclick=function(){S.view="home";render();window.scrollTo(0,0)};
+document.getElementById("home").onclick=function(){clearHash();S.view="home";render();window.scrollTo(0,0)};
+window.addEventListener("hashchange",function(){route();render();window.scrollTo(0,0)});
 document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function(){
   S.lang=b.dataset.l;try{localStorage.setItem("mg-lang",S.lang)}catch(e){}
   if(S.view==="result")S.pct=pct();
   render();
 }});
 initFx();
+route();
 render();
 })();
 </script>
-</body>
-</html>
